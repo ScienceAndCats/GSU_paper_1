@@ -4,16 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/GSU_paper_1_figures.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UMIs_per_barcode.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/doublet_detection.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/read_counts_per_cell.py" afterDir="false" />
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-got past most figure 1 stuff">
+      <change afterPath="$PROJECT_DIR$/Stats_infection_timeseries.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UMAP_heatmap_luz19_UMIs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UMAP_infected_vs_uninfected.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UMAP_infection_timeseries.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UMI_total_reads.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/barchart_multiinfection_total_phageExp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compare_general_bulk_stats.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/general_bulk_stats.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mean_UMIperCell_reads.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/monte_carlo_correlation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multiinfection_coinfections.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viral_genes_over_time.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viral_genes_over_time_heatmap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doublet_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/doublet_detection.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +37,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ScienceAndCats&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ScienceAndCats/GSU_paper_1.git&quot;,
+    &quot;accountId&quot;: &quot;0dad2bc2-ae79-43d5-8641-adf51fe35c5f&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2srbqS0MeJKsfUMA470LISZoa6N" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -43,9 +62,23 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.Stats_infection_timeseries.executor": "Run",
+    "Python.UMAP_heatmap_luz19_UMIs.executor": "Run",
+    "Python.UMAP_infected_vs_uninfected.executor": "Run",
+    "Python.UMAP_infection_timeseries.executor": "Run",
+    "Python.UMI_total_reads.executor": "Run",
     "Python.UMIs_per_barcode.executor": "Run",
+    "Python.barchart_multiinfection_mean_phageExp_per_cell.executor": "Run",
+    "Python.barchart_multiinfection_total_phage.executor": "Run",
+    "Python.compare_general_bulk_stats.executor": "Run",
     "Python.doublet_detection.executor": "Run",
+    "Python.general_bulk_stats.executor": "Run",
+    "Python.mean_UMIperCell_reads.executor": "Run",
+    "Python.monte_carlo_correlation.executor": "Run",
+    "Python.multiinfection_coinfections.executor": "Run",
     "Python.read_counts_per_cell.executor": "Run",
+    "Python.viral_genes_over_time.executor": "Run",
+    "Python.viral_genes_over_time_heatmap.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master"
   }
@@ -66,6 +99,19 @@
       <option name="presentableId" value="Default" />
       <updated>1739216831059</updated>
     </task>
+    <task id="LOCAL-00001" summary="-got past most figure 1 stuff">
+      <option name="closed" value="true" />
+      <created>1739300070587</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739300070587</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="-got past most figure 1 stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="-got past most figure 1 stuff" />
   </component>
 </project>

@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-on the coexpression stuff now">
-      <change afterPath="$PROJECT_DIR$/multiinfection_phage_cooccurance.py" afterDir="false" />
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-on the coexpression stuff now&#10;-got chi sq stuff working">
+      <change afterPath="$PROJECT_DIR$/multiinfection_coinfection_single_gene_correlations.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multiinfection_variance_top_genes_coinfection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiinfection_coinfections.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_coinfections.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/barchart_multiinfection_total_phageExp.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,8 +65,11 @@
     "Python.general_bulk_stats.executor": "Run",
     "Python.mean_UMIperCell_reads.executor": "Run",
     "Python.monte_carlo_correlation.executor": "Run",
+    "Python.multiinfection_coinfection_single_gene_correlations.executor": "Run",
     "Python.multiinfection_coinfections.executor": "Run",
+    "Python.multiinfection_luz19_lkd16_coexpression.executor": "Run",
     "Python.multiinfection_phage_cooccurance.executor": "Run",
+    "Python.multiinfection_variance_top_genes_coinfection.executor": "Run",
     "Python.read_counts_per_cell.executor": "Run",
     "Python.viral_genes_over_time.executor": "Run",
     "Python.viral_genes_over_time_heatmap.executor": "Run",
@@ -103,12 +109,32 @@
       <option name="project" value="LOCAL" />
       <updated>1739807991241</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="-on the coexpression stuff now&#10;-got chi sq stuff working">
+      <option name="closed" value="true" />
+      <created>1739828462399</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739828462399</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-got past most figure 1 stuff" />
     <MESSAGE value="-on the coexpression stuff now" />
-    <option name="LAST_COMMIT_MESSAGE" value="-on the coexpression stuff now" />
+    <MESSAGE value="-on the coexpression stuff now&#10;-got chi sq stuff working" />
+    <option name="LAST_COMMIT_MESSAGE" value="-on the coexpression stuff now&#10;-got chi sq stuff working" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py</url>
+          <line>104</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

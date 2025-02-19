@@ -1,3 +1,34 @@
+"""
+Script for comparing multiple single-cell RNA-seq datasets by analyzing UMI counts and gene expression.
+
+## Functionality:
+- Loads multiple CSV files containing gene expression data into AnnData objects.
+- Computes basic statistics for each dataset, including:
+  - Total cells and genes.
+  - Mean and median UMI counts per cell.
+  - Top 15 most expressed genes.
+- Saves computed statistics as CSV files for further analysis.
+- Generates two key visualizations:
+  1. **Clustered UMI Count Distribution** (histogram comparing cell distributions across datasets).
+  2. **Top 15 Expressed Genes** (bar plots per dataset).
+
+## Inputs:
+- CSV files containing single-cell gene expression data.
+  - Each file should have genes as columns and cells as rows.
+
+## Outputs:
+- CSV files:
+  - `top_15_genes_<dataset>.csv`: Mean expression of top 15 genes per dataset.
+  - `cell_umi_counts_<dataset>.csv`: UMI counts per cell.
+- Plots:
+  - Histogram comparing UMI count distributions across datasets.
+  - Bar plots showing the top 15 expressed genes in each dataset.
+
+## Dependencies:
+- scanpy, numpy, scipy, pandas, seaborn, matplotlib
+"""
+
+
 import os
 import scanpy as sc
 import pandas as pd

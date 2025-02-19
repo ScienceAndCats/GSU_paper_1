@@ -1,3 +1,31 @@
+"""
+Script for analyzing single-cell RNA-seq data from phage-infected bacterial cells.
+
+## Functionality:
+- Loads and filters gene expression data.
+- Identifies and quantifies phage gene expression per cell.
+- Compares phage expression levels between singly infected and coinfected cells.
+- Visualizes expression distributions using violin plots.
+- Performs statistical comparisons of expression using the Mann-Whitney U test.
+- Computes correlation between phage gene expression in coinfected cells.
+
+## Inputs:
+- `13Nov24_RT_multi_infection_gene_matrix.txt`: Tab-separated gene expression matrix.
+  - Rows: Cells
+  - Columns: Genes
+  - Values: Expression counts
+
+## Outputs:
+- Printed number of genes removed due to naming issues.
+- Violin plots comparing expression levels of Luz19 and LKD16 between coinfected and singly infected cells.
+- Mann-Whitney U test results for statistical comparison of phage expression.
+- Correlation matrix for Luz19 and LKD16 expression in coinfected cells.
+
+## Dependencies:
+- scanpy, numpy, scipy, pandas, seaborn, plotly, matplotlib
+"""
+
+
 import scanpy as sc
 import numpy as np
 from scipy import sparse

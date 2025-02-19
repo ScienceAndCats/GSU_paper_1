@@ -1,3 +1,34 @@
+"""
+Script for analyzing single-cell RNA-seq data from phage-infected bacterial cells.
+
+## Functionality:
+- Loads and filters gene expression data.
+- Identifies and quantifies phage gene expression per cell.
+- Encodes infection patterns for different phage combinations.
+- Computes expected infection rates based on MOI values.
+- Performs a chi-square goodness-of-fit test to compare observed vs. expected infection patterns.
+- Visualizes observed vs. expected infection counts using a table, bar chart, and heatmap.
+
+## Inputs:
+- `13Nov24_RT_multi_infection_gene_matrix.txt`: Tab-separated gene expression matrix.
+  - Rows: Cells
+  - Columns: Genes
+  - Values: Expression counts
+
+## Outputs:
+- Printed number of genes removed due to naming issues.
+- Printed observed vs. expected infection counts.
+- Chi-square test results (statistic and p-value).
+- Matplotlib table summarizing observed vs. expected infections.
+- Plotly table with colorized differences between observed and expected values.
+- Stacked bar chart visualizing phage co-occurrence across cells.
+- `phage_cooccurrence_stacked_bar_chart.png`: Saved visualization of phage combinations.
+
+## Dependencies:
+- scanpy, numpy, scipy, pandas, seaborn, plotly, matplotlib
+"""
+
+
 import scanpy as sc
 import numpy as np
 from scipy import sparse

@@ -1,16 +1,17 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.ticker as mtick
 
 # Load the file (assuming tab-separated values)
-file_path = "PMP2_initial2_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt"  # Change this to your actual file path
+file_path = "2PMP_initial_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt"  # Change this to your actual file path
 
 # User-defined filtering parameters
 min_umi_filter = None  # Set a min UMI threshold (None = no filter, or set a value like 10)
 max_umi_filter = None  # Set a max UMI threshold (None = no filter, or set a value like 100)
 bin_width = 1  # Set the bin width for histogram in units of UMIs
-y_axis_max = 100  # Set the maximum y-axis value for the histogram (None = auto-scale)
-x_axis_max = 80  # Set the maximum x-axis value for the histogram (None = auto-scale)
+y_axis_max = 65  # Set the maximum y-axis value as a percentage (e.g., 30 for 30%), None = auto-scale
+x_axis_max = 30  # Set the maximum x-axis value for the histogram (None = auto-scale)
 
 # Read the data into a Pandas DataFrame
 df = pd.read_csv(file_path, sep='\t')
@@ -48,26 +49,35 @@ for key, value in umi_summary.items():
 umi_counts.to_csv("umi_counts_per_cell_barcode_filtered.csv", index=False)
 print("UMI counts saved to 'umi_counts_per_cell_barcode_filtered.csv'")
 
-# Generate a histogram with user-defined binning
+# Generate a histogram with user-defined binning using stat='probability'
 plt.figure(figsize=(8, 6))
-
-# Define bins with respect to x_axis_max if provided
 if x_axis_max is not None:
-    bins = range(umi_counts["Total UMIs"].min(), min(umi_counts["Total UMIs"].max(), x_axis_max) + bin_width, bin_width)
+    bins = range(umi_counts["Total UMIs"].min(),
+                 min(umi_counts["Total UMIs"].max(), x_axis_max) + bin_width, bin_width)
 else:
-    bins = range(umi_counts["Total UMIs"].min(), umi_counts["Total UMIs"].max() + bin_width, bin_width)
+    bins = range(umi_counts["Total UMIs"].min(),
+                 umi_counts["Total UMIs"].max() + bin_width, bin_width)
 
-sns.histplot(umi_counts["Total UMIs"], bins=bins, kde=True, color="blue", edgecolor="black")
+sns.histplot(umi_counts["Total UMIs"],
+             bins=bins,
+             kde=True,
+             color="blue",
+             edgecolor="black",
+             stat="probability")
 
 # Customize the plot
 plt.xlabel("Total UMIs per Barcode")
-plt.ylabel("Frequency")
+plt.ylabel("Percentage")
 plt.title("Distribution of UMIs per Cell Barcode")
 
-# Set axis limits if specified
 if y_axis_max is not None:
-    plt.ylim(0, y_axis_max)
+    # Since stat='probability' gives values between 0 and 1, convert percentage max to fraction.
+    plt.ylim(0, y_axis_max / 100)
 if x_axis_max is not None:
     plt.xlim(umi_counts["Total UMIs"].min(), x_axis_max)
+
+# Format y-axis ticks as percentages
+ax = plt.gca()
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 
 plt.show()

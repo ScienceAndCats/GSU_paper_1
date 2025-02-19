@@ -4,13 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-on the coexpression stuff now&#10;-got chi sq stuff working">
-      <change afterPath="$PROJECT_DIR$/multiinfection_coinfection_single_gene_correlations.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiinfection_variance_top_genes_coinfection.py" afterDir="false" />
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now">
+      <change afterPath="$PROJECT_DIR$/UMI_per_barcode_percentage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UMI_total_reads_per_UMI_percentage.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/barchart_multiinfection_total_phageExp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stats_infection_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stats_infection_timeseries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_heatmap_luz19_UMIs.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_heatmap_luz19_UMIs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_infected_vs_uninfected.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_infected_vs_uninfected.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_infection_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_infection_timeseries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMI_total_reads.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMI_total_reads_per_UMI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMIs_per_barcode.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMIs_per_barcode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiinfection_coinfection_single_gene_correlations.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_coinfection_single_gene_correlations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiinfection_phage_cooccurance.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_phage_cooccurance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiinfection_variance_top_genes_coinfection.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_variance_top_genes_coinfection.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +63,9 @@
     "Python.UMAP_heatmap_luz19_UMIs.executor": "Run",
     "Python.UMAP_infected_vs_uninfected.executor": "Run",
     "Python.UMAP_infection_timeseries.executor": "Run",
+    "Python.UMI_per_barcode_percentage.executor": "Run",
     "Python.UMI_total_reads.executor": "Run",
+    "Python.UMI_total_reads_per_UMI_percentage.executor": "Run",
     "Python.UMIs_per_barcode.executor": "Run",
     "Python.barchart_multiinfection_mean_phageExp_per_cell.executor": "Run",
     "Python.barchart_multiinfection_total_phage.executor": "Run",
@@ -117,21 +126,30 @@
       <option name="project" value="LOCAL" />
       <updated>1739828462399</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now">
+      <option name="closed" value="true" />
+      <created>1739837405972</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739837405972</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-got past most figure 1 stuff" />
     <MESSAGE value="-on the coexpression stuff now" />
     <MESSAGE value="-on the coexpression stuff now&#10;-got chi sq stuff working" />
-    <option name="LAST_COMMIT_MESSAGE" value="-on the coexpression stuff now&#10;-got chi sq stuff working" />
+    <MESSAGE value="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now" />
+    <option name="LAST_COMMIT_MESSAGE" value="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py</url>
-          <line>104</line>
+          <line>132</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

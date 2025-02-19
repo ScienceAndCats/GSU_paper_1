@@ -1,3 +1,31 @@
+"""
+Script for analyzing single-cell RNA-seq data from phage-infected bacterial cells.
+
+## Functionality:
+- Loads and filters gene expression data.
+- Identifies and quantifies phage gene expression per cell.
+- Determines infection status based on phage expression levels.
+- Identifies the top 20 most expressed genes for each infection group.
+- Visualizes gene expression using bar plots.
+- Compares gene expression variability using Levene’s test.
+
+## Inputs:
+- `13Nov24_RT_multi_infection_gene_matrix.txt`: Tab-separated gene expression matrix.
+  - Rows: Cells
+  - Columns: Genes
+  - Values: Expression counts
+
+## Outputs:
+- Printed top 20 most expressed genes per infection group.
+- Interactive bar plots for the top genes by infection status.
+- `results_df_variance_top_genes.csv`: Variance comparison for top genes between single infections and co-infections.
+
+## Dependencies:
+- scanpy, numpy, scipy, pandas, seaborn, plotly, matplotlib, sklearn
+
+"""
+
+
 import scanpy as sc
 import numpy as np
 from scipy import sparse

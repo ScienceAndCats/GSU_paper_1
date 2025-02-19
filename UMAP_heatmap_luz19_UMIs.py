@@ -1,3 +1,42 @@
+"""
+Interactive Dash App for UMAP Visualization of Single-Cell RNA-seq Data
+
+## Functionality:
+- Loads and preprocesses single-cell gene expression data from a tab-delimited file.
+- Filters cells and genes based on user-defined minimum count thresholds.
+- Computes the number of "luz19:" genes expressed per cell.
+- Performs PCA and generates UMAP embeddings for visualization.
+- Allows interactive tuning of UMAP parameters (neighbors, min_dist, n_pcs).
+- Displays UMAP scatter plot with points colored by "luz19:" gene count.
+- Supports lasso selection of cells for further analysis.
+- Provides an option to download selected data points from UMAP.
+
+## Inputs:
+- Tab-separated gene expression matrix (CSV/TSV).
+  - Rows: Cells.
+  - Columns: Genes.
+  - Values: Expression counts.
+- User-defined parameters:
+  - Minimum counts per cell and gene.
+  - UMAP parameters (`n_neighbors`, `min_dist`, `n_pcs`).
+
+## Outputs:
+- Interactive UMAP plot with cell points colored by "luz19:" gene count.
+- Printed preprocessing details (genes removed, filtering steps).
+- CSV file containing selected data points (`selected_points.csv`).
+
+## Dependencies:
+- scanpy, pandas, numpy, dash, plotly
+
+## Usage:
+1. Run the script (`python script.py`).
+2. Open the Dash web interface in the browser.
+3. Adjust parameters, update UMAP, and explore the data interactively.
+4. Select data points and download them as a CSV file.
+"""
+
+
+
 import scanpy as sc
 import pandas as pd
 import numpy as np

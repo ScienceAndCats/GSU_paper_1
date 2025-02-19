@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Set parameters (adjust these as needed)
-input_file = "multipass_v11_threshold_0_filtered_mapped_UMIs_hans.txt"  # Replace with the actual file path
+input_file = "2PMP_initial_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt"  # Replace with the actual file path
 bin_lower = 0     # Lower bound of the bins
-bin_upper = 20  # Upper bound of the bins
+bin_upper = 100  # Upper bound of the bins
 bin_width = 1    # Width of each bin
 
 # Compute bin edges from lower bound to upper bound.

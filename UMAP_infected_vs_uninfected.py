@@ -1,3 +1,45 @@
+"""
+Interactive Dash App for UMAP Visualization of Single-Cell RNA-seq Data with Infection Status
+
+## Functionality:
+- Loads and preprocesses single-cell gene expression data from a tab-delimited file.
+- Filters cells and genes based on user-defined minimum count thresholds.
+- Identifies "infected" and "uninfected" cells based on the presence of "luz19:" genes.
+- Performs PCA and generates UMAP embeddings for visualization.
+- Allows interactive tuning of UMAP parameters (`n_neighbors`, `min_dist`, `n_pcs`).
+- Supports custom color selection for infected and uninfected cells using hue sliders.
+- Displays an interactive UMAP scatter plot with points colored by infection status.
+- Enables lasso selection of cells for further analysis.
+- Provides an option to download selected data points from UMAP.
+
+## Inputs:
+- Tab-separated gene expression matrix (CSV/TSV).
+  - Rows: Cells.
+  - Columns: Genes.
+  - Values: Expression counts.
+- User-defined parameters:
+  - Minimum counts per cell and gene.
+  - UMAP parameters (`n_neighbors`, `min_dist`, `n_pcs`).
+  - Custom hue values for infected and uninfected cells.
+
+## Outputs:
+- Interactive UMAP plot with cell points colored by infection status.
+- Printed preprocessing details (genes removed, filtering steps).
+- CSV file containing selected data points (`selected_points.csv`).
+
+## Dependencies:
+- scanpy, pandas, numpy, dash, plotly, colorsys
+
+## Usage:
+1. Run the script (`python script.py`).
+2. Open the Dash web interface in the browser.
+3. Adjust parameters, update UMAP, and explore the data interactively.
+4. Modify colors using the hue sliders for infected and uninfected cells.
+5. Select data points and download them as a CSV file.
+"""
+
+
+
 import scanpy as sc
 import pandas as pd
 import numpy as np

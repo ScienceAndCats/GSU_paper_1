@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-got past most figure 1 stuff">
-      <change beforePath="$PROJECT_DIR$/.idea/GSU_paper_1_figures.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GSU_paper_1_figures.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" afterDir="false" />
-    </list>
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-added in script for comparing batch metrics. It looks at UMIs and genes per cell mostly." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -114,6 +109,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-got past most figure 1 stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="-got past most figure 1 stuff" />
+    <MESSAGE value="-added in script for comparing batch metrics. It looks at UMIs and genes per cell mostly." />
+    <option name="LAST_COMMIT_MESSAGE" value="-added in script for comparing batch metrics. It looks at UMIs and genes per cell mostly." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/GSU_paper_1$barchart_multiinfection_mean_phageExp_per_cell.coverage" NAME="barchart_multiinfection_mean_phageExp_per_cell Coverage Results" MODIFIED="1740416034924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GSU_paper_1$scRNAseq_batch_comparison.coverage" NAME="scRNAseq_batch_comparison Coverage Results" MODIFIED="1740415740685" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

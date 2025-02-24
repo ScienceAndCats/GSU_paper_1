@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now">
-      <change afterPath="$PROJECT_DIR$/UMI_per_barcode_percentage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UMI_total_reads_per_UMI_percentage.py" afterDir="false" />
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-got past most figure 1 stuff">
+      <change beforePath="$PROJECT_DIR$/.idea/GSU_paper_1_figures.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GSU_paper_1_figures.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stats_infection_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stats_infection_timeseries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UMAP_heatmap_luz19_UMIs.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_heatmap_luz19_UMIs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UMAP_infected_vs_uninfected.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_infected_vs_uninfected.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UMAP_infection_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_infection_timeseries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UMI_total_reads.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMI_total_reads_per_UMI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UMIs_per_barcode.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMIs_per_barcode.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiinfection_coinfection_single_gene_correlations.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_coinfection_single_gene_correlations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiinfection_phage_cooccurance.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_phage_cooccurance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiinfection_variance_top_genes_coinfection.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_variance_top_genes_coinfection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +34,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/ScienceAndCats/GSU_paper_1.git&quot;,
-    &quot;accountId&quot;: &quot;0dad2bc2-ae79-43d5-8641-adf51fe35c5f&quot;
+    &quot;accountId&quot;: &quot;7595cec2-1918-432d-8b9b-efa6b50a2ba1&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -57,39 +48,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Stats_infection_timeseries.executor": "Run",
-    "Python.UMAP_heatmap_luz19_UMIs.executor": "Run",
-    "Python.UMAP_infected_vs_uninfected.executor": "Run",
-    "Python.UMAP_infection_timeseries.executor": "Run",
-    "Python.UMI_per_barcode_percentage.executor": "Run",
-    "Python.UMI_total_reads.executor": "Run",
-    "Python.UMI_total_reads_per_UMI_percentage.executor": "Run",
-    "Python.UMIs_per_barcode.executor": "Run",
-    "Python.barchart_multiinfection_mean_phageExp_per_cell.executor": "Run",
-    "Python.barchart_multiinfection_total_phage.executor": "Run",
-    "Python.compare_general_bulk_stats.executor": "Run",
-    "Python.doublet_detection.executor": "Run",
-    "Python.general_bulk_stats.executor": "Run",
-    "Python.mean_UMIperCell_reads.executor": "Run",
-    "Python.monte_carlo_correlation.executor": "Run",
-    "Python.multiinfection_coinfection_single_gene_correlations.executor": "Run",
-    "Python.multiinfection_coinfections.executor": "Run",
-    "Python.multiinfection_luz19_lkd16_coexpression.executor": "Run",
-    "Python.multiinfection_phage_cooccurance.executor": "Run",
-    "Python.multiinfection_variance_top_genes_coinfection.executor": "Run",
-    "Python.read_counts_per_cell.executor": "Run",
-    "Python.viral_genes_over_time.executor": "Run",
-    "Python.viral_genes_over_time_heatmap.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Stats_infection_timeseries.executor&quot;: &quot;Run&quot;,
+    &quot;Python.UMAP_heatmap_luz19_UMIs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.UMAP_infected_vs_uninfected.executor&quot;: &quot;Run&quot;,
+    &quot;Python.UMAP_infection_timeseries.executor&quot;: &quot;Run&quot;,
+    &quot;Python.UMI_total_reads.executor&quot;: &quot;Run&quot;,
+    &quot;Python.UMIs_per_barcode.executor&quot;: &quot;Run&quot;,
+    &quot;Python.barchart_multiinfection_mean_phageExp_per_cell.executor&quot;: &quot;Run&quot;,
+    &quot;Python.barchart_multiinfection_total_phage.executor&quot;: &quot;Run&quot;,
+    &quot;Python.compare_general_bulk_stats.executor&quot;: &quot;Run&quot;,
+    &quot;Python.doublet_detection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.general_bulk_stats.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mean_UMIperCell_reads.executor&quot;: &quot;Run&quot;,
+    &quot;Python.monte_carlo_correlation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.multiinfection_coinfections.executor&quot;: &quot;Run&quot;,
+    &quot;Python.read_counts_per_cell.executor&quot;: &quot;Run&quot;,
+    &quot;Python.viral_genes_over_time.executor&quot;: &quot;Run&quot;,
+    &quot;Python.viral_genes_over_time_heatmap.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0e3be3396995-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23339.19" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-PY-242.21829.153" />
+        <option value="bundled-python-sdk-464836ebc622-b74155a9e76b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.21829.153" />
       </set>
     </attachedChunks>
   </component>
@@ -101,6 +93,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1739216831059</updated>
+      <workItem from="1739808539756" duration="2915000" />
+      <workItem from="1740075898621" duration="1944000" />
+      <workItem from="1740260986667" duration="1695000" />
+      <workItem from="1740322513133" duration="67000" />
     </task>
     <task id="LOCAL-00001" summary="-got past most figure 1 stuff">
       <option name="closed" value="true" />
@@ -110,49 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1739300070587</updated>
     </task>
-    <task id="LOCAL-00002" summary="-on the coexpression stuff now">
-      <option name="closed" value="true" />
-      <created>1739807991241</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1739807991241</updated>
-    </task>
-    <task id="LOCAL-00003" summary="-on the coexpression stuff now&#10;-got chi sq stuff working">
-      <option name="closed" value="true" />
-      <created>1739828462399</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1739828462399</updated>
-    </task>
-    <task id="LOCAL-00004" summary="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now">
-      <option name="closed" value="true" />
-      <created>1739837405972</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1739837405972</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="-got past most figure 1 stuff" />
-    <MESSAGE value="-on the coexpression stuff now" />
-    <MESSAGE value="-on the coexpression stuff now&#10;-got chi sq stuff working" />
-    <MESSAGE value="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now" />
-    <option name="LAST_COMMIT_MESSAGE" value="-on the coexpression stuff now&#10;-got chi sq stuff working&#10;-looking at variance between top genes now" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/multiinfection_luz19_lkd16_coexpression.py</url>
-          <line>132</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <option name="LAST_COMMIT_MESSAGE" value="-got past most figure 1 stuff" />
   </component>
 </project>

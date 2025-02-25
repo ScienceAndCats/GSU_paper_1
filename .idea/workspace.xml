@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-added in script for comparing batch metrics. It looks at UMIs and genes per cell mostly." />
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-added in script for comparing batch metrics. It looks at UMIs and genes per cell mostly.">
+      <change afterPath="$PROJECT_DIR$/PETRI_assembly.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/GSU_paper_1_figures.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GSU_paper_1_figures.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,40 +48,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Stats_infection_timeseries.executor&quot;: &quot;Run&quot;,
-    &quot;Python.UMAP_heatmap_luz19_UMIs.executor&quot;: &quot;Run&quot;,
-    &quot;Python.UMAP_infected_vs_uninfected.executor&quot;: &quot;Run&quot;,
-    &quot;Python.UMAP_infection_timeseries.executor&quot;: &quot;Run&quot;,
-    &quot;Python.UMI_total_reads.executor&quot;: &quot;Run&quot;,
-    &quot;Python.UMIs_per_barcode.executor&quot;: &quot;Run&quot;,
-    &quot;Python.barchart_multiinfection_mean_phageExp_per_cell.executor&quot;: &quot;Run&quot;,
-    &quot;Python.barchart_multiinfection_total_phage.executor&quot;: &quot;Run&quot;,
-    &quot;Python.compare_general_bulk_stats.executor&quot;: &quot;Run&quot;,
-    &quot;Python.doublet_detection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.general_bulk_stats.executor&quot;: &quot;Run&quot;,
-    &quot;Python.mean_UMIperCell_reads.executor&quot;: &quot;Run&quot;,
-    &quot;Python.monte_carlo_correlation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.multiinfection_coinfections.executor&quot;: &quot;Run&quot;,
-    &quot;Python.read_counts_per_cell.executor&quot;: &quot;Run&quot;,
-    &quot;Python.viral_genes_over_time.executor&quot;: &quot;Run&quot;,
-    &quot;Python.viral_genes_over_time_heatmap.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.PETRI_assembly.executor": "Run",
+    "Python.Stats_infection_timeseries.executor": "Run",
+    "Python.UMAP_heatmap_luz19_UMIs.executor": "Run",
+    "Python.UMAP_infected_vs_uninfected.executor": "Run",
+    "Python.UMAP_infection_timeseries.executor": "Run",
+    "Python.UMI_total_reads.executor": "Run",
+    "Python.UMIs_per_barcode.executor": "Run",
+    "Python.barchart_multiinfection_mean_phageExp_per_cell.executor": "Run",
+    "Python.barchart_multiinfection_total_phage.executor": "Run",
+    "Python.compare_general_bulk_stats.executor": "Run",
+    "Python.doublet_detection.executor": "Run",
+    "Python.general_bulk_stats.executor": "Run",
+    "Python.mean_UMIperCell_reads.executor": "Run",
+    "Python.monte_carlo_correlation.executor": "Run",
+    "Python.multiinfection_coinfections.executor": "Run",
+    "Python.read_counts_per_cell.executor": "Run",
+    "Python.viral_genes_over_time.executor": "Run",
+    "Python.viral_genes_over_time_heatmap.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-PY-242.21829.153" />
-        <option value="bundled-python-sdk-464836ebc622-b74155a9e76b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.21829.153" />
+        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
       </set>
     </attachedChunks>
   </component>

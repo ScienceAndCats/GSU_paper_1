@@ -1,32 +1,36 @@
 import os
 import subprocess
 import glob
-import gzip
+import multiprocessing
 
-# ======= Configuration =======
-# Folder containing your gzipped FASTQ files
-fastq_folder = r"C:\Users\hanst\PycharmProjects\GSU_paper_1\fastq"
+# Detect the number of available CPU cores
+num_cores = multiprocessing.cpu_count()
 
-# Where to store trimmed outputs (in the same folder)
-trimmed_r1_gz = os.path.join(fastq_folder, "trimmed_R1.fastq.gz")
-trimmed_r2_gz = os.path.join(fastq_folder, "trimmed_R2.fastq.gz")
+# Set your folder containing FASTQ files (update to your folder path)
+fastq_folder = "fastq"
+assembly_output = "assembly_results"
 
-# Where to write decompressed trimmed FASTQ files (for Velvet)
-trimmed_r1 = os.path.join(fastq_folder, "trimmed_R1.fastq")
-trimmed_r2 = os.path.join(fastq_folder, "trimmed_R2.fastq")
-
-# Velvet assembly output directory
-velvet_output = os.path.join(fastq_folder, "velvet_assembly")
-kmer = "31"  # Adjust k-mer size as needed
-
-# Adapter sequence to trim (with ambiguous bases as 'N')
+# Define the adapter sequence for Cutadapt (your custom adapter)
 adapter_seq = "AGAATACACGACGCTCTTCCGATCTNNNNNNNNNNNNNNGGTCCTTGGCTTCGCNNNNNNNCCTCCTACGCCAGANNNNNNN"
 
-# ======= Step 1: Discover and Pair FASTQ Files =======
+# Define the Nextera transposase adapter sequences to remove
+nextera_adapter1 = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+nextera_adapter2 = "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
+
+# Find all .fastq.gz files in the folder
 fastq_files = sorted(glob.glob(os.path.join(fastq_folder, "*.fastq.gz")))
+
+# Limit to a maximum of 8 files if necessary
+max_files = 8
+if len(fastq_files) > max_files:
+    print(f"Warning: More than {max_files} FASTQ files found. Only processing the first {max_files} files.")
+    fastq_files = fastq_files[:max_files]
+
+# Automatically pair R1 and R2 files based on filename convention (_R1 and _R2)
 r1_files = [f for f in fastq_files if "_R1" in f]
 r2_files = [f.replace("_R1", "_R2") for f in r1_files if f.replace("_R1", "_R2") in fastq_files]
 
+# Check that each R1 file has a corresponding R2 file
 if len(r1_files) != len(r2_files):
     raise ValueError("Mismatch in paired-end files. Ensure every R1 file has a corresponding R2 file.")
 
@@ -35,50 +39,63 @@ for r1, r2 in zip(r1_files, r2_files):
     print(f"  R1: {r1}")
     print(f"  R2: {r2}")
 
-# ======= Step 2: Run Cutadapt for Trimming =======
-# Build the Cutadapt command. We call it as a Python module so Windows can find it.
-cmd_cutadapt = [
-                   "python", "-m", "cutadapt",
-                   "-a", adapter_seq,  # Adapter for R1
-                   "-A", adapter_seq,  # Adapter for R2
-                   "--crop", "75",  # Crop reads to a maximum of 75bp
-                   "-o", trimmed_r1_gz,  # Output for trimmed R1
-                   "-p", trimmed_r2_gz,  # Output for trimmed R2
-               ] + r1_files + r2_files
+# Merge all R1 files into one file and all R2 files into another file.
+merged_r1 = os.path.join(fastq_folder, "merged_R1.fastq.gz")
+merged_r2 = os.path.join(fastq_folder, "merged_R2.fastq.gz")
 
-print("\nRunning Cutadapt...")
+# Merge the files using the cat command (works for gzipped files)
+with open(merged_r1, "wb") as outfile:
+    for fname in r1_files:
+        with open(fname, "rb") as infile:
+            outfile.write(infile.read())
+
+with open(merged_r2, "wb") as outfile:
+    for fname in r2_files:
+        with open(fname, "rb") as infile:
+            outfile.write(infile.read())
+
+print(f"\nMerged {len(r1_files)} R1 files into {merged_r1}")
+print(f"Merged {len(r2_files)} R2 files into {merged_r2}")
+
+# Define output file names for trimmed reads
+trimmed_r1 = os.path.join(fastq_folder, "trimmed_R1.fastq.gz")
+trimmed_r2 = os.path.join(fastq_folder, "trimmed_R2.fastq.gz")
+
+# Build the Cutadapt command.
+# Now we supply only the merged R1 and R2 files.
+cmd_cutadapt = [
+    "python3", "-m", "cutadapt",
+    "-a", adapter_seq,
+    "-a", nextera_adapter1,
+    "-a", nextera_adapter2,
+    "-A", adapter_seq,
+    "-A", nextera_adapter1,
+    "-A", nextera_adapter2,
+    "--cut", "75",
+    "-o", trimmed_r1,
+    "-p", trimmed_r2,
+    "-j", str(num_cores),  # Use all available CPU cores
+    merged_r1,
+    merged_r2
+]
+
+print(f"\nRunning Cutadapt using {num_cores} cores...")
 subprocess.run(cmd_cutadapt, check=True)
 print("Cutadapt trimming complete!")
 
+# Create assembly output directory if it doesn't exist
+os.makedirs(assembly_output, exist_ok=True)
 
-# ======= Step 3: Decompress Trimmed FASTQ Files =======
-def gunzip_file(gz_file, out_file):
-    with gzip.open(gz_file, 'rt') as fin, open(out_file, 'w') as fout:
-        fout.write(fin.read())
-
-
-print("\nDecompressing trimmed FASTQ files for Velvet...")
-gunzip_file(trimmed_r1_gz, trimmed_r1)
-gunzip_file(trimmed_r2_gz, trimmed_r2)
-print("Decompression complete!")
-
-# ======= Step 4: Run Velvet for Assembly =======
-# Velvet requires two steps: velveth then velvetg.
-# First, create the hash table with velveth.
-cmd_velveth = [
-    "velveth", velvet_output, kmer,
-    "-fastq", "-shortPaired", "-separate",
-    trimmed_r1, trimmed_r2
+# Build the SPAdes command.
+cmd_spades = [
+    "SPAdes-4.1.0-Linux/bin/spades.py",
+    "--only-assembler",
+    "-1", trimmed_r1,
+    "-2", trimmed_r2,
+    "-o", assembly_output,
+    "-t", str(num_cores)  # Use all available CPU cores
 ]
-print("\nRunning velveth...")
-subprocess.run(cmd_velveth, check=True)
 
-# Next, run velvetg to perform the assembly.
-cmd_velvetg = [
-    "velvetg", velvet_output,
-    "-exp_cov", "auto",
-    "-cov_cutoff", "auto"
-]
-print("\nRunning velvetg...")
-subprocess.run(cmd_velvetg, check=True)
-print(f"Velvet assembly complete! Assembly output is in: {velvet_output}")
+print(f"\nRunning SPAdes using {num_cores} cores...")
+subprocess.run(cmd_spades, check=True)
+print(f"SPAdes assembly complete! Output saved in {assembly_output}")

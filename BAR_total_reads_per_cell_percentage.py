@@ -1,3 +1,18 @@
+"""
+Histogram Generator for Total Reads
+
+- Reads a tab-delimited file containing read counts.
+- Converts the 'total_reads' column to numeric, omitting non-numeric entries.
+- Bins the data into defined ranges (default: 0-100 with a bin width of 1).
+- Computes percentage weights for each bin and plots a histogram.
+- Annotates each bar with its corresponding percentage.
+- Customizes axis labels, tick formatting, and axis limits.
+- Displays the final histogram plot.
+"""
+
+
+
+
 #!/usr/bin/env python3
 import pandas as pd
 import matplotlib.pyplot as plt

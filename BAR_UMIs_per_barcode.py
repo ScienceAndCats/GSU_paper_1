@@ -1,3 +1,19 @@
+"""
+UMI Counts Analysis and Histogram Plotter
+
+- Loads a tab-delimited file containing UMI data.
+- Groups data by 'Cell Barcode' to count unique UMIs per cell.
+- Applies optional minimum and maximum UMI filters.
+- Computes summary statistics (mean, std, median, min, max) for the filtered counts.
+- Prints UMI counts and summary statistics.
+- Saves filtered UMI counts to a CSV file.
+- Plots a histogram (with KDE) of UMIs per barcode using seaborn,
+  with user-defined bin width and axis limits.
+"""
+
+
+
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns

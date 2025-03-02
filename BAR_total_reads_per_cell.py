@@ -1,3 +1,17 @@
+"""
+Histogram Plotter for Total Reads
+
+- Loads a tab-delimited file containing a 'total_reads' column.
+- Converts the 'total_reads' values to numeric, dropping non-numeric entries.
+- Defines bins from 0 to 100 (with a bin width of 1) using numpy.
+- Plots a histogram with skyblue bars and black edges.
+- Sets axis labels and a plot title, then displays the plot.
+"""
+
+
+
+
+
 #!/usr/bin/env python3
 import pandas as pd
 import matplotlib.pyplot as plt

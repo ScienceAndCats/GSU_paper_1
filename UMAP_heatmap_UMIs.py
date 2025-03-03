@@ -33,9 +33,8 @@ def load_and_preprocess_data(file_name, min_counts_cells, min_counts_genes):
     sc.pp.filter_cells(adata, min_counts=min_counts_cells)
     sc.pp.filter_genes(adata, min_counts=min_counts_genes)
 
-    # Count UMIs for genes with the prefix "PA01:" per cell
-    pa01_mask = adata.var_names.str.contains("PA01:")
-    adata.obs['PA01_UMI_count'] = adata.X[:, pa01_mask].sum(axis=1)
+    # Count total UMIs per cell by summing expression counts
+    adata.obs['UMI_count'] = adata.X.sum(axis=1)
 
     sc.pp.normalize_total(adata, target_sum=1e4)
     sc.pp.log1p(adata)
@@ -59,7 +58,7 @@ def create_umap_df(adata, n_neighbors, min_dist, n_pcs):
         index=adata.obs_names
     )
     umap_df['leiden'] = adata.obs['leiden']
-    umap_df['PA01_UMI_count'] = adata.obs['PA01_UMI_count']
+    umap_df['UMI_count'] = adata.obs['UMI_count']
     umap_df['cell_name'] = umap_df.index
 
     return umap_df
@@ -117,15 +116,15 @@ def update_umap(n_clicks, file_name, min_counts_cells, min_counts_genes,
         umap_df,
         x='UMAP1',
         y='UMAP2',
-        color='PA01_UMI_count',
-        hover_data=['cell_name', 'leiden', 'PA01_UMI_count'],
+        color='UMI_count',
+        hover_data=['cell_name', 'leiden', 'UMI_count'],
         custom_data=['cell_name'],
         color_continuous_scale='Reds'
     )
     fig.update_traces(marker=dict(size=3, opacity=0.8))
     fig.update_layout(
         dragmode='lasso',
-        coloraxis_colorbar=dict(title="PA01 UMI Count")
+        coloraxis_colorbar=dict(title="UMI Count")
     )
 
     return fig, umap_df.to_json(date_format='iso', orient='split'), raw_data.to_json(date_format='iso', orient='split')

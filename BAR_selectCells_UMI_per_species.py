@@ -15,7 +15,7 @@ import os
 # Configuration
 # -----------------------------------------
 # Path to your data file
-INPUT_FILE = "DD2PAL_MG1655vsPA01_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt"
+INPUT_FILE = "data/18Nov2024_PAcontroltab_NH_filtered_mapped_UMIs_hans.txt"
 
 # Predefined gene prefixes
 PREFIXES = [

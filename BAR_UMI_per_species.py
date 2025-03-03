@@ -8,7 +8,7 @@ import os
 # Configuration
 # -----------------------------------------
 # Path to your data file
-INPUT_FILE = "17Sep24_Luz19_20min_filtered_mapped_UMIs_hans.txt"
+INPUT_FILE = "data/18Nov2024_PAcontroltab_NH_filtered_mapped_UMIs_hans.txt"
 
 # Predefined gene prefixes
 PREFIXES = [
@@ -22,11 +22,11 @@ PREFIXES = [
 ]
 
 # Filter: Minimum UMIs per cell to include in analysis
-MIN_UMIS_PER_CELL = 1
+MIN_UMIS_PER_CELL = 3
 
 # Histogram Parameters
-X_AXIS_MAX = 50  # Maximum UMIs per cell to display on the x-axis
-Y_AXIS_MAX = 30  # Maximum count of cells to display on the y-axis
+X_AXIS_MAX = 220  # Maximum UMIs per cell to display on the x-axis
+Y_AXIS_MAX = 250  # Maximum count of cells to display on the y-axis
 BIN_WIDTH = 1  # Bin width for the histogram
 
 # -----------------------------------------
@@ -35,7 +35,6 @@ BIN_WIDTH = 1  # Bin width for the histogram
 # Assumes a tab-delimited file
 df = pd.read_csv(INPUT_FILE, sep="\t")
 df.columns = ["Cell_Barcode", "UMI", "contig_gene", "total_reads"]
-
 
 # -----------------------------------------
 # Step 2: Identify the unique prefix for each UMI row
@@ -53,7 +52,6 @@ def find_prefixes_in_row(contig_genes_str):
             if gene.startswith(pfx):
                 found.add(pfx)
     return found
-
 
 # Create a new column with the set of prefixes for each row
 df["prefix_set"] = df["contig_gene"].apply(find_prefixes_in_row)
@@ -91,28 +89,20 @@ cell_meta.rename(columns={
 # -----------------------------------------
 # Step 5: Compute summary statistics for each prefix combination
 # -----------------------------------------
-grouped_combo = cell_meta.groupby("prefix_combination")
-summary_list = []
+grouped_combo = cell_meta.groupby("prefix_combination").agg(
+    num_cells=("cell_umi_count", "size"),
+    total_umis=("cell_umi_count", "sum"),
+    mean_umis_per_cell=("cell_umi_count", "mean"),
+    median_umis_per_cell=("cell_umi_count", "median"),
+    std_umis_per_cell=("cell_umi_count", "std"),
+    total_reads=("cell_total_reads", "sum"),
+    mean_reads_per_cell=("cell_total_reads", "mean"),
+    median_reads_per_cell=("cell_total_reads", "median"),
+    std_reads_per_cell=("cell_total_reads", "std")
+).reset_index()
 
-for combo, group in grouped_combo:
-    num_cells = len(group)
-    total_umis = group["cell_umi_count"].sum()
-    total_reads = group["cell_total_reads"].sum()
-    mean_umis = total_umis / num_cells if num_cells > 0 else 0
-    mean_reads = total_reads / num_cells if num_cells > 0 else 0
-
-    summary_list.append({
-        "prefix_combination": combo,
-        "num_cells": num_cells,
-        "total_umis": total_umis,
-        "mean_umis_per_cell": mean_umis,
-        "total_reads": total_reads,
-        "mean_reads_per_cell": mean_reads
-    })
-
-summary_df = pd.DataFrame(summary_list).sort_values("prefix_combination")
 print("\nSummary statistics by prefix combination:")
-print(summary_df.to_string(index=False))
+print(grouped_combo.to_string(index=False))
 
 # -----------------------------------------
 # Step 6: Plot histograms for each prefix combination in a single figure

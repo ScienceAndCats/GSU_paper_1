@@ -4,14 +4,14 @@ import seaborn as sns
 import matplotlib.ticker as mtick
 
 # Load the file (assuming tab-separated values)
-file_path = "2PMP_initial_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt"  # Change this to your actual file path
+file_path = "data/18Nov2024_PAcontroltab_NH_filtered_mapped_UMIs_hans.txt"  # Change this to your actual file path
 
 # User-defined filtering parameters
 min_umi_filter = None  # Set a min UMI threshold (None = no filter, or set a value like 10)
 max_umi_filter = None  # Set a max UMI threshold (None = no filter, or set a value like 100)
 bin_width = 1  # Set the bin width for histogram in units of UMIs
-y_axis_max = 65  # Set the maximum y-axis value as a percentage (e.g., 30 for 30%), None = auto-scale
-x_axis_max = 30  # Set the maximum x-axis value for the histogram (None = auto-scale)
+y_axis_max = 5  # Set the maximum y-axis value as a percentage (e.g., 30 for 30%), None = auto-scale
+x_axis_max = 220  # Set the maximum x-axis value for the histogram (None = auto-scale)
 
 # Read the data into a Pandas DataFrame
 df = pd.read_csv(file_path, sep='\t')

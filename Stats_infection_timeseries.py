@@ -1,5 +1,7 @@
 """
-Script for comparing multiple single-cell RNA-seq datasets by analyzing UMI counts and gene expression.
+NOTE: This ONLY works for csv files derived from selecting subsets of the UMAP graphs from other script in this.
+Script for comparing multiple single-cell RNA-seq datasets by analyzing UMI counts and gene expression FROM UMAP GRAPH
+SUBSETS.
 
 ## Functionality:
 - Loads multiple CSV files containing gene expression data into AnnData objects.

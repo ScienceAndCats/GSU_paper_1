@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-SVM analyses&#10;-UMAP heatmap for PA01 genes">
-      <change afterPath="$PROJECT_DIR$/filtered_mapped_UMIs_preprocess.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-added preprocess module script for filtered_mapped_UMIs files.">
+      <change afterPath="$PROJECT_DIR$/gene_matrix_CREATE.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LATE_KNEE_selecting_cells.py" beforeDir="false" afterPath="$PROJECT_DIR$/LATE_KNEE_selecting_cells.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VIOLIN_UMI_per_species.py" beforeDir="false" afterPath="$PROJECT_DIR$/VIOLIN_by_filtered_mapped_UMI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VIOLIN_UMIperCell.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filtered_mapped_UMIs_preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +64,7 @@
     "Python.LATE_KNEE_selecting_cells.executor": "Run",
     "Python.PETRI_assembly.executor": "Run",
     "Python.PETRI_assembly_correctedFASTA.executor": "Run",
+    "Python.PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.executor": "Run",
     "Python.STATS-BAR_CompareBatches_UMI_per_species.executor": "Run",
     "Python.STATS_UMI_per_species.executor": "Run",
     "Python.SVM_InfectedVsUnifected_HostGenesOnly.executor": "Run",
@@ -80,6 +83,7 @@
     "Python.UMI_total_reads_per_UMI_percentage.executor": "Run",
     "Python.UMIs_per_barcode.executor": "Run",
     "Python.VIOLIN_UMI_per_species.executor": "Run",
+    "Python.VIOLIN_by_filtered_mapped_UMI.executor": "Run",
     "Python.barchart_multiinfection_mean_phageExp_per_cell.executor": "Run",
     "Python.barchart_multiinfection_total_phage.executor": "Run",
     "Python.compare_general_bulk_stats.executor": "Run",
@@ -151,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741043847051</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="-added preprocess module script for filtered_mapped_UMIs files.">
+      <option name="closed" value="true" />
+      <created>1741134286033</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741134286033</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,18 +174,8 @@
     <MESSAGE value="-added in script for comparing batch metrics. It looks at UMIs and genes per cell mostly." />
     <MESSAGE value="-added cutadapt and assembly script for checking the raw reads and blasting them using bandage afterwards. For troubleshooting." />
     <MESSAGE value="-SVM analyses&#10;-UMAP heatmap for PA01 genes" />
-    <option name="LAST_COMMIT_MESSAGE" value="-SVM analyses&#10;-UMAP heatmap for PA01 genes" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/filtered_mapped_UMIs_preprocess.py</url>
-          <line>99</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="-added preprocess module script for filtered_mapped_UMIs files." />
+    <option name="LAST_COMMIT_MESSAGE" value="-added preprocess module script for filtered_mapped_UMIs files." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GSU_paper_1$barchart_multiinfection_mean_phageExp_per_cell.coverage" NAME="barchart_multiinfection_mean_phageExp_per_cell Coverage Results" MODIFIED="1740416034924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

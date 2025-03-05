@@ -3,16 +3,80 @@
 import os
 import sys
 import re
+import pickle
+import pandas as pd
+
+"""
+PETRI-seq UMI Preprocessing Pipeline
+
+This script preprocesses a PETRI-seq UMI table through multiple optional filtering
+and grouping steps to clean and organize single-cell RNA data. The result is a
+filtered UMI table and a corresponding gene expression matrix.
+
+--------------------
+UPDATED USAGE:
+--------------------
+    python script_name.py <FILE_PATH> <INPUT_UMI_FILENAME> <SELECTED_CELL_FILENAME> [run_rna_filter]
+
+EXAMPLE:
+    python script_name.py /my/full/path \
+        dd2pal_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt \
+        DD2PAL_selected_cumulative_frequency_table.txt \
+        True
+
+Where:
+  - <FILE_PATH> is the directory containing your input files.
+  - <INPUT_UMI_FILENAME> is the actual name of your UMI table file in that directory.
+  - <SELECTED_CELL_FILENAME> is the name of the file listing selected cell barcodes.
+  - The optional fourth argument ('True' or 'False') controls whether to run the rRNA/multihit filter.
+    Defaults to the internal toggle if not provided.
+
+--------------------
+INPUTS:
+--------------------
+- INPUT_FILE: UMI table with columns [Cell Barcode, UMI, contig:gene, total_reads].
+- SELECTED_CELL_FILE: List of barcodes ranked by read count, used for filtering the top cells.
+- USER CONFIGURATIONS: Located within the script to toggle filters and define groupings.
+
+--------------------
+OUTPUTS:
+--------------------
+- Preprocessed UMI table (saved to OUTPUT_FOLDER).
+- Gene expression matrix (cells x genes) in tab-separated format.
+- Pickle files for each dictionary produced by the grouping/assignment functions.
+
+--------------------
+FILTERING OPTIONS:
+--------------------
+- RUN_FUNCTION_RNA_FILTER: Remove or clean rRNA and multihit entries.
+- REMOVE_rRNA: Exclude single rRNA hits.
+- RUN_REMOVE_COMMAS_FILTER: Remove rows containing commas.
+- RUN_BARCODE_FILTER: Keep only the top N barcodes from SELECTED_CELL_FILE.
+- RUN_BC1_SELECTION: Group barcodes by bc1 ranges.
+- RUN_CONTIG_GROUPS: Group barcodes based on shared contig sets.
+- RUN_CONTIG_ASSIGNMENT: Assign barcodes to predefined contig groups (e.g., all Luz19 cells are labeled infected)
+- RUN_MIN_UMI_FILTER: Remove barcodes with fewer than MIN_UMI_COUNT UMIs.
+- RUN_MIN_GENE_FILTER: Remove barcodes with fewer than MIN_GENE_COUNT unique genes.
+
+--------------------
+FINAL OUTPUTS:
+--------------------
+- <input_file>_preprocessed.txt: Filtered UMI table.
+- <sample_name>_mixed_species_gene_matrix_preprocessed.txt: Gene expression matrix.
+- <input_file>_<dictionary_name>.pkl: Pickle files for dictionaries.
+"""
+
 
 # --------------------
 # USER CONFIGURATIONS
 # --------------------
-TROUBLESHOOTING = True
+TROUBLESHOOTING = False
 
+# Default values (will be overridden by command-line arguments)
 FILE_PATH = "working_files"
-# UMI file input and output folder:
-INPUT_FILE = os.path.join(FILE_PATH, "initial_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt")
+INPUT_FILE = "PAcontrol_v11_threshold_0_filtered_mapped_UMIs_hans.txt"
 OUTPUT_FOLDER = os.path.join(FILE_PATH, "preprocessed_PETRI_outputs")
+SELECTED_CELL_FILE = "PAcontrol_selected_cumulative_frequency_table.txt"
 
 # Toggle for rRNA / ribo filtering
 RUN_FUNCTION_RNA_FILTER = True
@@ -24,21 +88,19 @@ RUN_REMOVE_COMMAS_FILTER = True
 # Toggle for barcode-based filtering from a selected cell file
 # Selects the top n number of barcodes with the highest amount of reads, NOT UMIs.
 RUN_BARCODE_FILTER = True
-NUM_BARCODES = 2000
-SELECTED_CELL_FILE = os.path.join(FILE_PATH, "DD2PAL_selected_cumulative_frequency_table.txt")
+NUM_BARCODES = 100
 
-# Toggle for bc1 grouping (based on integer in cell barcode after "_bc1_")
+# Toggle for bc1 grouping
 RUN_BC1_SELECTION = True
 BC1_GROUPS = [
-    ["test", 1, 19],
-    ["untreated", 20, 48],
+    ["untreated", 1, 48],
     ["treated", 49, 96]
 ]
 
-# Toggle for contig grouping (grouping by the set of contigs per barcode)
+# Toggle for contig grouping
 RUN_CONTIG_GROUPS = True
 
-# Toggle for new contig assignment function.
+# Toggle for new contig assignment
 RUN_CONTIG_ASSIGNMENT = True
 CONTIG_ASSIGNMENT_GROUPS = [
     ["PA01", "pseudomonas"],
@@ -46,13 +108,14 @@ CONTIG_ASSIGNMENT_GROUPS = [
     ["DH5alpha", "ecoli"]
 ]
 
-# Toggle and parameter for filtering by minimum UMI count per barcode.
+# Toggle and parameter for filtering by minimum UMI count
 RUN_MIN_UMI_FILTER = True
 MIN_UMI_COUNT = 1
 
-# Toggle and parameter for filtering by minimum unique gene count per barcode.
+# Toggle and parameter for filtering by minimum unique gene count
 RUN_MIN_GENE_FILTER = True
 MIN_GENE_COUNT = 1
+
 
 # --------------------
 # HELPER FUNCTIONS
@@ -81,7 +144,7 @@ def filter_ribo_and_multihits(rows, remove_rRNA=False):
             continue  # discard multiple-hit occurrences
         elif count_rna == 0:
             processed_rows.append(row)
-        else:
+        else:  # correct the rRNA hits formatting
             if remove_rRNA:
                 continue
             gene_chunks = [g.strip() for g in contig_gene.split(",")]
@@ -93,7 +156,10 @@ def filter_ribo_and_multihits(rows, remove_rRNA=False):
                     break
             for g in gene_chunks:
                 if "rna-" in g:
-                    selected = g
+                    if ":" in g:
+                        selected = g.split(":")[1]
+                    else:
+                        selected = g
                     break
             if selected and current_contig:
                 new_gene_field = f"{current_contig}:{selected}"
@@ -247,9 +313,9 @@ def process_file(input_path, output_path, run_rna_filter):
       2. If toggled, apply ribo/multihit filter.
       3. If toggled, remove rows that contain commas.
       4. If toggled, reorder rows by barcodes from SELECTED_CELL_FILE.
-      5. If toggled, group barcodes by bc1 range (prints summary).
-      6. If toggled, group barcodes by contig sets (prints summary).
-      7. If toggled, assign barcodes to contig groups based on user-defined pairs (prints summary).
+      5. If toggled, group barcodes by bc1 range (prints summary and outputs pickle).
+      6. If toggled, group barcodes by contig sets (prints summary and outputs pickle).
+      7. If toggled, assign barcodes to contig groups (prints summary and outputs pickle).
       8. If toggled, remove barcodes with fewer than MIN_UMI_COUNT UMIs.
       9. If toggled, remove barcodes with fewer than MIN_GENE_COUNT unique genes.
      10. Write processed rows to output.
@@ -278,6 +344,10 @@ def process_file(input_path, output_path, run_rna_filter):
         barcode_list = get_barcode_list(SELECTED_CELL_FILE, NUM_BARCODES)
         data_rows = filter_by_barcode_order(data_rows, barcode_list)
 
+    # Determine base name for pickle file naming
+    base = os.path.basename(input_path)
+    name_part, _ = os.path.splitext(base)
+
     # 5) bc1 grouping
     if RUN_BC1_SELECTION:
         groups_dict = barcode_1_selection(data_rows, BC1_GROUPS)
@@ -287,6 +357,10 @@ def process_file(input_path, output_path, run_rna_filter):
         if TROUBLESHOOTING:
             for group in groups_dict:
                 print(groups_dict[group])
+        # Save bc1 selection dictionary as pickle
+        pickle_file_path = os.path.join(OUTPUT_FOLDER, f"{name_part}_bc1_selection.pkl")
+        with open(pickle_file_path, "wb") as f_pickle:
+            pickle.dump(groups_dict, f_pickle)
 
     # 6) Contig grouping by set
     if RUN_CONTIG_GROUPS:
@@ -297,8 +371,12 @@ def process_file(input_path, output_path, run_rna_filter):
             print(f"  [{contig_str}] => {len(bc_list)} barcodes")
             if TROUBLESHOOTING:
                 print(f"    Barcodes: {bc_list}")
+        # Save contig grouping dictionary as pickle (frozenset keys are preserved)
+        pickle_file_path = os.path.join(OUTPUT_FOLDER, f"{name_part}_contig_groups.pkl")
+        with open(pickle_file_path, "wb") as f_pickle:
+            pickle.dump(contig_dict, f_pickle)
 
-    # 7) Assign barcodes to contig groups based on user-defined pairs
+    # 7) Assign barcodes to contig groups
     if RUN_CONTIG_ASSIGNMENT:
         assignment_dict = assign_barcodes_to_contig_groups(data_rows, CONTIG_ASSIGNMENT_GROUPS)
         print("\nCONTIG ASSIGNMENT SUMMARY:")
@@ -306,6 +384,9 @@ def process_file(input_path, output_path, run_rna_filter):
             print(f"  {group} => {len(bc_list)} barcodes")
             if TROUBLESHOOTING:
                 print(f"    Barcodes: {bc_list}")
+        pickle_file_path = os.path.join(OUTPUT_FOLDER, f"{name_part}_contig_assignment.pkl")
+        with open(pickle_file_path, "wb") as f_pickle:
+            pickle.dump(assignment_dict, f_pickle)
 
     # 8) Filter out barcodes with fewer than MIN_UMI_COUNT UMIs
     if RUN_MIN_UMI_FILTER:
@@ -334,30 +415,62 @@ def process_file(input_path, output_path, run_rna_filter):
 def main():
     """
     Main entry point.
-    Example usage: python script_name.py /path/to/input.txt /path/to/output True
+    Usage: python script_name.py <FILE_PATH> <INPUT_UMI_FILENAME> <SELECTED_CELL_FILENAME> [run_rna_filter]
     If no arguments are provided, the configuration defaults are used.
     """
-    input_file = INPUT_FILE
-    output_folder = OUTPUT_FOLDER
+    global FILE_PATH, INPUT_FILE, SELECTED_CELL_FILE
+
     run_rna_filter = RUN_FUNCTION_RNA_FILTER
 
     if len(sys.argv) > 1:
-        input_file = sys.argv[1]
+        FILE_PATH = sys.argv[1]
     if len(sys.argv) > 2:
-        output_folder = sys.argv[2]
+        INPUT_FILE = sys.argv[2]
     if len(sys.argv) > 3:
-        run_rna_filter = sys.argv[3].lower() == "true"
+        SELECTED_CELL_FILE = sys.argv[3]
+    if len(sys.argv) > 4:
+        run_rna_filter = sys.argv[4].lower() == "true"
 
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder, exist_ok=True)
-    base_name = os.path.basename(input_file)
+    # Construct the full paths to input files
+    input_path = os.path.join(FILE_PATH, INPUT_FILE)
+    selected_cell_file_path = os.path.join(FILE_PATH, SELECTED_CELL_FILE)
+
+    # Update the global SELECTED_CELL_FILE so that 'process_file' can read it
+    SELECTED_CELL_FILE = selected_cell_file_path
+
+    # Create output folder if it doesn't exist
+    if not os.path.exists(OUTPUT_FOLDER):
+        os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
+    base_name = os.path.basename(input_path)
     name_part, ext_part = os.path.splitext(base_name)
     if not ext_part:
         ext_part = ".txt"
     output_file_name = f"{name_part}_preprocessed{ext_part}"
-    output_path = os.path.join(output_folder, output_file_name)
+    output_path = os.path.join(OUTPUT_FOLDER, output_file_name)
 
-    process_file(input_file, output_path, run_rna_filter)
+    # Run the main pipeline
+    process_file(input_path, output_path, run_rna_filter)
+
+    # === Make the Gene Matrix ===
+    # Read the input file that was generated earlier in the pipeline.
+    table = pd.read_csv(output_path, sep='\t', index_col=0)
+
+    # Select the relevant columns and group by Cell Barcode and contig:gene.
+    matrix = table[['contig:gene', 'UMI']]
+    gene_matrix = matrix.groupby(['Cell Barcode', 'contig:gene']).count()
+
+    # Reshape the matrix: unstack, fill missing values, transpose, drop extra level.
+    gene_matrix = gene_matrix.unstack(level='contig:gene')
+    gene_matrix = gene_matrix.fillna(0)
+
+    # Write the resulting matrix to a file.
+    sample_name = os.path.basename(INPUT_FILE).split("_")[0]
+    gm_output_file = f"{sample_name}_mixed_species_gene_matrix_preprocessed.txt"
+    GM_OUTPUT_PATH = os.path.join(OUTPUT_FOLDER, gm_output_file)
+
+    gene_matrix.to_csv(GM_OUTPUT_PATH, sep='\t')
+    print(f"Gene expression matrix saved to: {GM_OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

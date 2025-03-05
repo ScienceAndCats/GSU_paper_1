@@ -22,13 +22,13 @@ import sys
 # Configuration
 # -----------------------------------------
 # How many lines to read from the first file
-ROW_LIMIT = 1000
+ROW_LIMIT = 2000
 
 # Path to your first file (for cell list)
-PATH_TO_CELL_LIST_FILE = "17Sep2024_luz19_20min_selected_cumulative_frequency_table.txt" # 17Sep2024_luz19_20min_selected_cumulative_frequency_table
+PATH_TO_CELL_LIST_FILE = "data/DD2PAL_newPETRI_selected_cumulative_frequency_table.txt" # 17Sep2024_luz19_20min_selected_cumulative_frequency_table
 
 # Path to your second data file
-INPUT_FILE = "17Sep2024_luz19_20min_filtered_mapped_UMIs_hans.txt" # 17Sep2024_luz19_20min_filtered_mapped_UMIs_hans
+INPUT_FILE = "data/switched.txt" # 17Sep2024_luz19_20min_filtered_mapped_UMIs_hans
 
 # Predefined gene prefixes
 PREFIXES = [

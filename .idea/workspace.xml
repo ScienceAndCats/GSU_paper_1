@@ -4,13 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-added preprocess module script for filtered_mapped_UMIs files.">
-      <change afterPath="$PROJECT_DIR$/gene_matrix_CREATE.py" afterDir="false" />
+    <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-preprocess module script now makes pickle dicts for all the groupings&#10;-working violin plot test based of filtered_mapped_UMIs with preprocess module">
+      <change afterPath="$PROJECT_DIR$/CHI_co-infection_timeseries_csv_only.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CORRELATION_Luz19_genes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CORRELATION_top20_genes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FILTER_timeseries_phages.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HEATMAP_viral_genes_by_time.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PREPROCESS_txt_pkl_2_anndata.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SVMlinear_infected_timeseries.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UMAP_timeseries.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/old_scripts/multiinfection_phage_cooccurance_with14one.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/old_scripts/mutliinfection_phage_coccurance_proportions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VIOLIN_UMI_per_species.py" beforeDir="false" afterPath="$PROJECT_DIR$/VIOLIN_by_filtered_mapped_UMI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VIOLIN_UMIperCell.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filtered_mapped_UMIs_preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_heatmap_PA01_UMIs.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_heatmap_PA01_UMIs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_heatmap_UMIs_customizable.py" beforeDir="false" afterPath="$PROJECT_DIR$/CHI_co-infection_timeseries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_heatmap_luz19_UMIs.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_heatmap_luz19_UMIs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_infected_vs_uninfected.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_infected_vs_uninfected.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UMAP_infection_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_scripts/UMAP_infection_timeseries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VIOLIN_by_filtered_mapped_UMI.py" beforeDir="false" afterPath="$PROJECT_DIR$/VIOLIN_by_filtered_mapped_UMI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gene_matrix_CREATE.py" beforeDir="false" afterPath="$PROJECT_DIR$/gene_matrix_CREATE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monte_carlo_correlation.py" beforeDir="false" afterPath="$PROJECT_DIR$/monte_carlo_correlation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiinfection_phage_cooccurance.py" beforeDir="false" afterPath="$PROJECT_DIR$/multiinfection_phage_cooccurance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/read_counts_per_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/read_counts_per_cell.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viral_genes_over_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_scripts/viral_genes_over_time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viral_genes_over_time_heatmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_scripts/viral_genes_over_time_heatmap.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,19 +81,26 @@
     "Python.BAR_downsampleUMIsThenFilter_per_species.executor": "Run",
     "Python.BAR_downsampleUMIs_per_species.executor": "Run",
     "Python.BAR_selectCells_UMI_per_species.executor": "Run",
+    "Python.CHI_co-infection_timeseries.executor": "Run",
+    "Python.CHI_co-infection_timeseries_csv_only.executor": "Run",
+    "Python.FILTER_timeseries_phages.executor": "Debug",
     "Python.LATE_KNEE_selecting_cells.executor": "Run",
     "Python.PETRI_assembly.executor": "Run",
     "Python.PETRI_assembly_correctedFASTA.executor": "Run",
     "Python.PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.executor": "Run",
+    "Python.PREPROCESS_txt_pkl_2_anndata.executor": "Run",
     "Python.STATS-BAR_CompareBatches_UMI_per_species.executor": "Run",
     "Python.STATS_UMI_per_species.executor": "Run",
     "Python.SVM_InfectedVsUnifected_HostGenesOnly.executor": "Run",
     "Python.SVM_InfectedVsUninfected.executor": "Run",
     "Python.SVM_timeseries.executor": "Run",
+    "Python.SVMlinear_infected_timeseries.executor": "Run",
+    "Python.SVMlinear_timeSeries_over30min.executor": "Run",
     "Python.SVMrbfByGene_InfectedVsUninfected.executor": "Debug",
     "Python.SVMrbf_InfectedVsUninfected.executor": "Run",
     "Python.SVMrbf_InfectedVsUninfected_HostGenesOnly.executor": "Run",
     "Python.Stats_infection_timeseries.executor": "Run",
+    "Python.UMAP_heatmap_PA01_UMIs.executor": "Run",
     "Python.UMAP_heatmap_luz19_UMIs.executor": "Run",
     "Python.UMAP_infectedVsUninfected_noPhageGenes.executor": "Run",
     "Python.UMAP_infected_vs_uninfected.executor": "Run",
@@ -89,10 +116,13 @@
     "Python.compare_general_bulk_stats.executor": "Run",
     "Python.doublet_detection.executor": "Run",
     "Python.filtered_mapped_UMIs_preprocess.executor": "Run",
+    "Python.gene_matrix_CREATE.executor": "Debug",
     "Python.general_bulk_stats.executor": "Run",
     "Python.mean_UMIperCell_reads.executor": "Run",
-    "Python.monte_carlo_correlation.executor": "Run",
+    "Python.monte_carlo_correlation.executor": "Debug",
     "Python.multiinfection_coinfections.executor": "Run",
+    "Python.multiinfection_phage_cooccurance.executor": "Run",
+    "Python.multiinfection_phage_cooccurance_with14one.executor": "Run",
     "Python.read_counts_per_cell.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test1.executor": "Run",
@@ -111,6 +141,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/old_scripts" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -163,7 +198,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741134286033</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="-preprocess module script now makes pickle dicts for all the groupings&#10;-working violin plot test based of filtered_mapped_UMIs with preprocess module">
+      <option name="closed" value="true" />
+      <created>1741197694132</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741197694132</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,7 +218,24 @@
     <MESSAGE value="-added cutadapt and assembly script for checking the raw reads and blasting them using bandage afterwards. For troubleshooting." />
     <MESSAGE value="-SVM analyses&#10;-UMAP heatmap for PA01 genes" />
     <MESSAGE value="-added preprocess module script for filtered_mapped_UMIs files." />
-    <option name="LAST_COMMIT_MESSAGE" value="-added preprocess module script for filtered_mapped_UMIs files." />
+    <MESSAGE value="-preprocess module script now makes pickle dicts for all the groupings&#10;-working violin plot test based of filtered_mapped_UMIs with preprocess module" />
+    <option name="LAST_COMMIT_MESSAGE" value="-preprocess module script now makes pickle dicts for all the groupings&#10;-working violin plot test based of filtered_mapped_UMIs with preprocess module" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gene_matrix_CREATE.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/monte_carlo_correlation.py</url>
+          <line>66</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GSU_paper_1$barchart_multiinfection_mean_phageExp_per_cell.coverage" NAME="barchart_multiinfection_mean_phageExp_per_cell Coverage Results" MODIFIED="1740416034924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

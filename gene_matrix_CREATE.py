@@ -10,7 +10,7 @@ import os
 # === Hard-coded parameter for PyCharm ===
 
 FILE_PATH = "working_files/preprocessed_PETRI_outputs"
-INPUT_FILE = os.path.join(FILE_PATH, "initial_v11_threshold_0_filtered_mapped_UMIs_multihitcombo_preprocessed.txt")
+INPUT_FILE = os.path.join(FILE_PATH, "04DPALb_v11_threshold_0_filtered_mapped_UMIs_multihitcombo_preprocessed.txt")
 OUTPUT_FILE = os.path.join(FILE_PATH, "output_test2.txt")
 
 

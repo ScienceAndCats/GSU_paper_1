@@ -40,7 +40,7 @@ import seaborn as sns
 
 # -------------------- Data Loading & Filtering -------------------- #
 # With txt file for the UNPROCESSED DATA
-file_path = "working_data/Unprocessed_data/13Nov2024RTmultiinfection/13Nov24_RT_multi_infection_gene_matrix.txt"
+file_path = "../working_data/Unprocessed_data/13Nov2024RTmultiinfection/13Nov24_RT_multi_infection_gene_matrix.txt"
 adata = sc.read(file_path, delimiter="\t")  # Use delimiter="\t" for tab-separated files
 
 # With h5ad file
@@ -54,6 +54,38 @@ adata = adata[:, ~adata.var_names.str.contains(",")]
 print(f"Removed {len(removed_genes)} genes with commas.")
 print(removed_genes)
 
+
+
+
+
+
+# Identify genes that contain "rRNA" in their names
+rrna_genes = adata.var_names[adata.var_names.str.contains("rna", case=False, na=False)]
+print(rrna_genes)
+glist = []
+for g in adata.var_names:
+    glist.append(g)
+output_file = "../gene_output.txt"
+
+with open(output_file, "w") as f:
+    for g in adata.var_names:
+        print(g, file=f)
+    print("This is a test output.", file=f)
+print(f"Output saved to {output_file}")
+
+
+# Filter out those genes from the dataset
+adata = adata[:, ~adata.var_names.isin(rrna_genes)]
+# Print the number of removed genes
+print(f"Removed {len(rrna_genes)} rRNA genes.")
+
+
+
+
+
+
+
+
 # Set filtering thresholds
 min_counts_cells = 5
 min_counts_genes = 5
@@ -61,6 +93,12 @@ min_counts_genes = 5
 # Filter cells and genes by minimum counts
 sc.pp.filter_cells(adata, min_counts=min_counts_cells)
 sc.pp.filter_genes(adata, min_counts=min_counts_genes)
+
+
+
+
+
+
 # -------------------- End Data Loading & Filtering -------------------- #
 
 # -------------------- Phage Analysis -------------------- #
@@ -144,20 +182,31 @@ expected_counts = {
 }
 # -------------------- End Expected Combination Counts -------------------- #
 
-# -------------------- Chi-Square Goodness-of-Fit Test -------------------- #
+## -------------------- Chi-Square Goodness-of-Fit Test -------------------- #
 categories_order = [
     "No phage", "Only luz19", "Only lkd16", "luz19 and lkd16"
-    # "Only 14one", "luz19 and 14one", "lkd16 and 14one", "All phages"  # Removed 14one phage categories
 ]
 
 observed_list = [phage_combinations.get(cat, 0) for cat in categories_order]
 expected_list = [expected_counts[cat] for cat in categories_order]
 
-chi2, p_val = chisquare(f_obs=observed_list, f_exp=expected_list)
-#print(f"\nChi-square test results: chi2 = {chi2:.2f}, p-value = {p_val:.10f}")
-print(f"\nChi-square test results: chi2 = {chi2:.2f}, p-value = {p_val:.3e}")
+# Convert raw counts to proportions.
+observed_prop = [obs / N_total for obs in observed_list]
+expected_prop = [exp / N_total for exp in expected_list]
+
+# Run the chi-square test on the proportions.
+chi2, p_val = chisquare(f_obs=observed_prop, f_exp=expected_prop)
+print(f"\nChi-square test results (in proportions): chi2 = {chi2:.2f}, p-value = {p_val:.3e}")
 
 # -------------------- End Chi-Square Test -------------------- #
+
+# -------------------- Print Total Number of Cells and Observed vs Expected (Proportions) -------------------- #
+print(f"\nTotal number of cells: {N_total}")
+print("\nObserved vs Expected values (proportions):")
+for cat, obs, exp in zip(categories_order, observed_prop, expected_prop):
+    print(f"{cat}: Observed = {obs:.3f}, Expected = {exp:.3f}")
+# -------------------- End Printout -------------------- #
+
 
 # -------------------- Matplotlib Table (Observed vs Expected) -------------------- #
 fig, ax = plt.subplots(figsize=(8, 4))

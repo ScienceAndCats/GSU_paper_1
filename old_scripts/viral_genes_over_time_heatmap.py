@@ -5,6 +5,18 @@ import dash
 from dash import dcc, html, Input, Output, State
 import plotly.express as px
 
+
+
+"""
+ARCHIVED 14Mar2025
+
+This just displays a heatmap of the phage genes by time point. You can customize abunch of stuff in it.
+This displays BULK SUM COUNTS of the genes though, and you need means.
+
+working_data/preprocessed_PETRI_outputs/09Oct2024_Luz19_0-40min_18000/09Oct2024_mixed_species_gene_matrix_preprocessed.txt
+
+"""
+
 # Initialize Dash app
 app = dash.Dash(__name__)
 
@@ -208,8 +220,8 @@ def update_heatmap(n_clicks, file_name, yaxis_min, yaxis_max,
         # Only use genes that exist in the current DataFrame.
         new_order = [gene for gene in gene_order_list if gene in heat_df.index]
         # Append any genes not mentioned.
-        remaining_genes = [gene for gene in heat_df.index if gene not in new_order]
-        new_order.extend(remaining_genes)
+        # remaining_genes = [gene for gene in heat_df.index if gene not in new_order]  # took this out, I don't want to display genes I don't specify
+        # new_order.extend(remaining_genes) # took this out, I don't want to display genes I don't specify
         heat_df = heat_df.loc[new_order]
 
     # Create heatmap using px.imshow.

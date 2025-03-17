@@ -19,6 +19,7 @@ Interactive Dash App for UMAP Visualization of Single-Cell RNA-seq Data
 - User-defined parameters:
   - Minimum counts per cell and gene.
   - UMAP parameters (`n_neighbors`, `min_dist`, `n_pcs`).
+  - **Plot customization:** Background color, graph size, and color scale min/max.
 
 ## Outputs:
 - Interactive UMAP plot with cell points colored by "luz19:" gene count.
@@ -34,8 +35,6 @@ Interactive Dash App for UMAP Visualization of Single-Cell RNA-seq Data
 3. Adjust parameters, update UMAP, and explore the data interactively.
 4. Select data points and download them as a CSV file.
 """
-
-
 
 import scanpy as sc
 import pandas as pd
@@ -120,7 +119,7 @@ app.layout = html.Div([
     dcc.Input(
         id="file-name-input",
         type="text",
-        value='09Oct2024_luz19_initial_v11_threshold_0_mixed_species_gene_matrix_multihitcombo.txt'
+        value='working_data/preprocessed_PETRI_outputs/09Oct2024_Luz19_0-40min_18000/09Oct2024_mixed_species_gene_matrix_preprocessed.txt'
     ),
     html.Label("Set min_counts for cells:"),
     dcc.Input(id="min-counts-cells", type="number", value=5, step=1, min=1),
@@ -129,9 +128,20 @@ app.layout = html.Div([
     html.Label("Set n_neighbors for UMAP:"),
     dcc.Input(id="n-neighbors-input", type="number", value=60, step=1, min=2, max=200),
     html.Label("Set min_dist for UMAP:"),
-    dcc.Input(id="min-dist-input", type="number", value=0.3, step=0.1, min=0.0, max=1.0),
+    dcc.Input(id="min-dist-input", type="number", value=0.1, step=0.1, min=0.0, max=1.0),
     html.Label("Set n_pcs for UMAP:"),
     dcc.Input(id="n-pcs-input", type="number", value=12, step=1, min=2),
+    # New inputs for customization
+    html.Label("Set plot background color (plot_bgcolor):"),
+    dcc.Input(id="plot-bgcolor-input", type="text", value="darkgray"),
+    html.Label("Set graph width:"),
+    dcc.Input(id="graph-width-input", type="number", value=800, step=10),
+    html.Label("Set graph height:"),
+    dcc.Input(id="graph-height-input", type="number", value=600, step=10),
+    html.Label("Set color scale minimum:"),
+    dcc.Input(id="color-min-input", type="number", value=0, step=0.1),
+    html.Label("Set color scale maximum:"),
+    dcc.Input(id="color-max-input", type="number", value=10, step=0.1),
     html.Button("Update UMAP", id="update-button", n_clicks=0),
     dcc.Loading(
         id="loading-spinner",
@@ -156,15 +166,22 @@ app.layout = html.Div([
     State("n-neighbors-input", "value"),
     State("min-dist-input", "value"),
     State("n-pcs-input", "value"),
+    # New customization inputs
+    State("plot-bgcolor-input", "value"),
+    State("graph-width-input", "value"),
+    State("graph-height-input", "value"),
+    State("color-min-input", "value"),
+    State("color-max-input", "value"),
     prevent_initial_call=True
 )
 def update_umap(n_clicks, file_name, min_counts_cells, min_counts_genes,
-                n_neighbors, min_dist, n_pcs):
+                n_neighbors, min_dist, n_pcs,
+                plot_bgcolor, graph_width, graph_height, color_min, color_max):
     adata, raw_data = load_and_preprocess_data(file_name, min_counts_cells, min_counts_genes)
     umap_df = create_umap_df(adata, n_neighbors, min_dist, n_pcs)
 
     # Create the UMAP scatter plot, coloring points by "luz19_count"
-    # Using the built-in "Reds" color scale (without blue).
+    # Using the built-in "Reds" color scale (without blue) and applying the color range.
     fig = px.scatter(
         umap_df,
         x='UMAP1',
@@ -172,12 +189,17 @@ def update_umap(n_clicks, file_name, min_counts_cells, min_counts_genes,
         color='luz19_count',
         hover_data=['cell_name', 'leiden', 'luz19_count'],
         custom_data=['cell_name'],
-        color_continuous_scale='Reds'
+        color_continuous_scale='Reds',
+        range_color=[color_min, color_max],
+        width=graph_width,
+        height=graph_height
     )
     fig.update_traces(marker=dict(size=3, opacity=0.8))
     fig.update_layout(
         dragmode='lasso',
-        coloraxis_colorbar=dict(title="luz19 Gene Count")
+        coloraxis_colorbar=dict(title="UMI Count"),
+        paper_bgcolor="white",  # Entire figure background (can leave as is)
+        plot_bgcolor=plot_bgcolor  # Plot area background from input
     )
 
     return fig, umap_df.to_json(date_format='iso', orient='split'), raw_data.to_json(date_format='iso', orient='split')

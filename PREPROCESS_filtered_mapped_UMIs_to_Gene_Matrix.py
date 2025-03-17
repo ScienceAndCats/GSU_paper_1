@@ -74,12 +74,12 @@ TROUBLESHOOTING = False
 
 # Default values (will be overridden by command-line arguments)
 FILE_PATH = "working_files"
-INPUT_FILE = "PAcontrol_v11_threshold_0_filtered_mapped_UMIs_hans.txt"
+INPUT_FILE = "DD2PAL_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt"
 OUTPUT_FOLDER = os.path.join(FILE_PATH, "preprocessed_PETRI_outputs")
-SELECTED_CELL_FILE = "PAcontrol_selected_cumulative_frequency_table.txt"
+SELECTED_CELL_FILE = "DD2PAL_selected_cumulative_frequency_table.txt"
 
 # Toggle for rRNA / ribo filtering
-RUN_FUNCTION_RNA_FILTER = True
+RUN_FUNCTION_RNA_FILTER = True # this is also for multihits, need to update the name
 REMOVE_rRNA = False
 
 # Toggle for removing rows with commas
@@ -88,13 +88,13 @@ RUN_REMOVE_COMMAS_FILTER = True
 # Toggle for barcode-based filtering from a selected cell file
 # Selects the top n number of barcodes with the highest amount of reads, NOT UMIs.
 RUN_BARCODE_FILTER = True
-NUM_BARCODES = 100
+NUM_BARCODES = 5000
 
 # Toggle for bc1 grouping
-RUN_BC1_SELECTION = True
+RUN_BC1_SELECTION = False
 BC1_GROUPS = [
-    ["untreated", 1, 48],
-    ["treated", 49, 96]
+    ["Untreated", 1, 48],
+    ["Treated", 49, 96]
 ]
 
 # Toggle for contig grouping
@@ -103,9 +103,13 @@ RUN_CONTIG_GROUPS = True
 # Toggle for new contig assignment
 RUN_CONTIG_ASSIGNMENT = True
 CONTIG_ASSIGNMENT_GROUPS = [
-    ["PA01", "pseudomonas"],
+    ["luz19", "infected"],
+    ["lkd16", "infected"],
+    ["14one", "infected"],
+    ["PA01", "pseudo"],
     ["MG1655", "ecoli"],
-    ["DH5alpha", "ecoli"]
+    ["DH5alpha", "ecoli"],
+    ["pTNS2", "plasmid"]
 ]
 
 # Toggle and parameter for filtering by minimum UMI count
@@ -452,6 +456,9 @@ def main():
     # Run the main pipeline
     process_file(input_path, output_path, run_rna_filter)
 
+
+
+
     # === Make the Gene Matrix ===
     # Read the input file that was generated earlier in the pipeline.
     table = pd.read_csv(output_path, sep='\t', index_col=0)
@@ -461,8 +468,11 @@ def main():
     gene_matrix = matrix.groupby(['Cell Barcode', 'contig:gene']).count()
 
     # Reshape the matrix: unstack, fill missing values, transpose, drop extra level.
-    gene_matrix = gene_matrix.unstack(level='contig:gene')
+    gene_matrix = gene_matrix.unstack(level='Cell Barcode')
     gene_matrix = gene_matrix.fillna(0)
+    gene_matrix = gene_matrix.transpose()
+    gene_matrix = gene_matrix.droplevel(0)
+    gene_matrix = gene_matrix.loc[:, ~gene_matrix.columns.str.contains('ambiguous')] # get rid of ambiguous contig:genes
 
     # Write the resulting matrix to a file.
     sample_name = os.path.basename(INPUT_FILE).split("_")[0]
@@ -471,6 +481,7 @@ def main():
 
     gene_matrix.to_csv(GM_OUTPUT_PATH, sep='\t')
     print(f"Gene expression matrix saved to: {GM_OUTPUT_PATH}")
+
 
 
 if __name__ == "__main__":

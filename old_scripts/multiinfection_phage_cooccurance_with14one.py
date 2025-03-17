@@ -39,20 +39,15 @@ import plotly.graph_objects as go
 import seaborn as sns
 
 # -------------------- Data Loading & Filtering -------------------- #
-# With txt file for the UNPROCESSED DATA
-file_path = "working_data/Unprocessed_data/13Nov2024RTmultiinfection/13Nov24_RT_multi_infection_gene_matrix.txt"
-adata = sc.read(file_path, delimiter="\t")  # Use delimiter="\t" for tab-separated files
-
-# With h5ad file
-#file_path = "working_data/preprocessed_PETRI_outputs/13Nov2024RTmultiinfection_15000/RTmulti_mixed_species_gene_matrix_preprocessed.h5ad"
-#adata = sc.read_h5ad(file_path)
+file_path = "../working_data/preprocessed_PETRI_outputs/13Nov2024RTmultiinfection_15000/RTmulti_mixed_species_gene_matrix_preprocessed.h5ad"
+#adata = sc.read(file_path, delimiter="\t")  # Use delimiter="\t" for tab-separated files
+adata = sc.read_h5ad(file_path)
 print(adata)
 
 # Remove genes with commas in their names
 removed_genes = adata.var_names[adata.var_names.str.contains(",")]
 adata = adata[:, ~adata.var_names.str.contains(",")]
 print(f"Removed {len(removed_genes)} genes with commas.")
-print(removed_genes)
 
 # Set filtering thresholds
 min_counts_cells = 5
@@ -64,10 +59,7 @@ sc.pp.filter_genes(adata, min_counts=min_counts_genes)
 # -------------------- End Data Loading & Filtering -------------------- #
 
 # -------------------- Phage Analysis -------------------- #
-# Original phage_patterns list included "14one:"; now removed by commenting it out.
-phage_patterns = ["luz19:", "lkd16:"]
-# phage_patterns = ["luz19:", "lkd16:", "14one:"]  # Removed "14one:" phage
-
+phage_patterns = ["luz19:", "lkd16:", "14one:"]
 phage_gene_dict = {}
 
 for phage in phage_patterns:
@@ -90,11 +82,11 @@ for phage in phage_patterns:
     adata.obs[metadata_key] = phage_expression
     adata.obs[f'{phage.strip(":")}_n_genes'] = phage_n_genes
 
-# Encode infection patterns: originally included 14one (value 4), now removed.
+# Encode infection patterns: luz19 -> 1, lkd16 -> 2, 14one -> 4.
 adata.obs["phage_presence"] = (
     (adata.obs["luz19_expression"] > 0).astype(int) * 1 +
-    (adata.obs["lkd16_expression"] > 0).astype(int) * 2
-    # + (adata.obs["14one_expression"] > 0).astype(int) * 4   # Removed 14one phage from infection pattern
+    (adata.obs["lkd16_expression"] > 0).astype(int) * 2 +
+    (adata.obs["14one_expression"] > 0).astype(int) * 4
 )
 
 # Count cells with each combination of phages
@@ -106,17 +98,17 @@ combination_labels = {
     1: "Only luz19",
     2: "Only lkd16",
     3: "luz19 and lkd16",
-    # 4: "Only 14one",       # Removed 14one phage
-    # 5: "luz19 and 14one",   # Removed 14one phage
-    # 6: "lkd16 and 14one",   # Removed 14one phage
-    # 7: "All phages"         # Removed 14one phage from combined analysis
+    4: "Only 14one",
+    5: "luz19 and 14one",
+    6: "lkd16 and 14one",
+    7: "All phages"
 }
 phage_combinations.index = phage_combinations.index.map(combination_labels)
 # -------------------- End Phage Analysis -------------------- #
 
 # -------------------- Expected Infections Based on MOI -------------------- #
 N_total = adata.n_obs
-MOI_values = {"luz19": 0.57, "lkd16": 0.35}  #"luz19": 0.19, "14one": 0.38
+MOI_values = {"luz19": 0.19, "lkd16": 0.35, "14one": 0.38}
 expected_infections_individual = {}
 for phage, moi in MOI_values.items():
     expected_infections_individual[phage] = N_total * (1 - np.exp(-moi))
@@ -129,34 +121,29 @@ for phage, count in expected_infections_individual.items():
 # -------------------- Expected Combination Counts -------------------- #
 p_l = 1 - np.exp(-MOI_values["luz19"])
 p_k = 1 - np.exp(-MOI_values["lkd16"])
-# p_14 = 1 - np.exp(-MOI_values["14one"])   # Removed 14one phage MOI calculation
+p_14 = 1 - np.exp(-MOI_values["14one"])
 
 expected_counts = {
-    # For combinations without 14one, remove the (1-p_14) factor:
-    "No phage": N_total * ((1 - p_l) * (1 - p_k)),  # originally: ((1 - p_l) * (1 - p_k) * (1 - p_14))
-    "Only luz19": N_total * (p_l * (1 - p_k)),         # originally: (p_l * (1 - p_k) * (1 - p_14))
-    "Only lkd16": N_total * ((1 - p_l) * p_k),         # originally: ((1 - p_l) * p_k * (1 - p_14))
-    "luz19 and lkd16": N_total * (p_l * p_k),          # originally: (p_l * p_k * (1 - p_14))
-    # "Only 14one": N_total * ((1 - p_l) * (1 - p_k) * p_14),      # Removed 14one phage
-    # "luz19 and 14one": N_total * (p_l * (1 - p_k) * p_14),         # Removed 14one phage
-    # "lkd16 and 14one": N_total * ((1 - p_l) * p_k * p_14),         # Removed 14one phage
-    # "All phages": N_total * (p_l * p_k * p_14)                     # Removed 14one phage from combined analysis
+    "No phage": N_total * ((1 - p_l) * (1 - p_k) * (1 - p_14)),
+    "Only luz19": N_total * (p_l * (1 - p_k) * (1 - p_14)),
+    "Only lkd16": N_total * ((1 - p_l) * p_k * (1 - p_14)),
+    "luz19 and lkd16": N_total * (p_l * p_k * (1 - p_14)),
+    "Only 14one": N_total * ((1 - p_l) * (1 - p_k) * p_14),
+    "luz19 and 14one": N_total * (p_l * (1 - p_k) * p_14),
+    "lkd16 and 14one": N_total * ((1 - p_l) * p_k * p_14),
+    "All phages": N_total * (p_l * p_k * p_14)
 }
 # -------------------- End Expected Combination Counts -------------------- #
 
 # -------------------- Chi-Square Goodness-of-Fit Test -------------------- #
-categories_order = [
-    "No phage", "Only luz19", "Only lkd16", "luz19 and lkd16"
-    # "Only 14one", "luz19 and 14one", "lkd16 and 14one", "All phages"  # Removed 14one phage categories
-]
+categories_order = ["No phage", "Only luz19", "Only lkd16", "luz19 and lkd16",
+                    "Only 14one", "luz19 and 14one", "lkd16 and 14one", "All phages"]
 
 observed_list = [phage_combinations.get(cat, 0) for cat in categories_order]
 expected_list = [expected_counts[cat] for cat in categories_order]
 
 chi2, p_val = chisquare(f_obs=observed_list, f_exp=expected_list)
-#print(f"\nChi-square test results: chi2 = {chi2:.2f}, p-value = {p_val:.10f}")
-print(f"\nChi-square test results: chi2 = {chi2:.2f}, p-value = {p_val:.3e}")
-
+print(f"\nChi-square test results: chi2 = {chi2:.2f}, p-value = {p_val:.4f}")
 # -------------------- End Chi-Square Test -------------------- #
 
 # -------------------- Matplotlib Table (Observed vs Expected) -------------------- #

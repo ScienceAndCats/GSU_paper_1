@@ -28,7 +28,7 @@ def coexpression_counts(file_name, prefixes, min_counts_cells, min_counts_genes)
     raw_data = raw_data.drop(columns=removed_genes)
 
     # Store removed genes separately
-    removed_genes_file = "removed_genes.txt"
+    removed_genes_file = "../removed_genes.txt"
     with open(removed_genes_file, "w") as f:
         for gene in removed_genes:
             f.write(gene + "\n")

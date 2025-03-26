@@ -14,26 +14,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, precision_recall_curve, average_precision_score
 from sklearn.preprocessing import label_binarize
 
-
-
-"""
-NOTE: The SVM Feature Importance plot on this DOES NOT WORK!!!! IT MESSES UP AND WILL TELL YOU THE WRONG GENES.
-
-
-FWEFWEAFAWFWEFEAWFEWAFEAWFW
-
-
-
-"""
-
-
-
-
 # ------------------------------------------------------------------------------
 # MULTIPROCESSING SETTINGS
 # ------------------------------------------------------------------------------
 sc.settings.n_jobs = multiprocessing.cpu_count()
-
 
 # ------------------------------------------------------------------------------
 # TIME-BASED CLASSIFICATION FUNCTION (MERGING 30min + 40min -> ">30min")
@@ -55,60 +39,18 @@ def classify_cell(cell_name):
     else:
         return ">30min"
 
-
 # ------------------------------------------------------------------------------
 # HELPER: Convert hue (0-360) to hex
 # ------------------------------------------------------------------------------
 def hue_to_hex(hue, saturation=1.0, lightness=0.5):
     h = hue / 360.0
     r, g, b = colorsys.hls_to_rgb(h, lightness, saturation)
-    return '#{:02x}{:02x}{:02x}'.format(int(r * 255), int(g * 255), int(b * 255))
-
-
-# ------------------------------------------------------------------------------
-# HELPER FUNCTIONS FOR PCA GENE LOADINGS
-# ------------------------------------------------------------------------------
-def get_top_genes_for_pc(adata, pc_index=0, top_n=20):
-    """
-    Extracts the top genes contributing to a specified principal component.
-
-    Parameters:
-    - adata: AnnData object with PCA already computed.
-    - pc_index: index of the PC (0 = PC1, 1 = PC2, etc.)
-    - top_n: number of top genes to return.
-
-    Returns:
-    - A pandas DataFrame with gene names and their loading values.
-    """
-    loadings = adata.varm["PCs"]  # shape: genes x PCs
-    pc_loadings = loadings[:, pc_index]
-    abs_loadings = np.abs(pc_loadings)
-    top_indices = np.argsort(abs_loadings)[::-1][:top_n]
-    top_genes = adata.var_names[top_indices]
-    top_values = pc_loadings[top_indices]
-
-    return pd.DataFrame({
-        "Gene": top_genes,
-        f"PC{pc_index + 1}_loading": top_values
-    }).reset_index(drop=True)
-
-
-def get_pca_loadings_figure(adata, pc_index=0, top_n=20):
-    """
-    Creates a Plotly bar chart of top gene loadings for a given PC.
-    """
-    df = get_top_genes_for_pc(adata, pc_index, top_n)
-    fig = px.bar(df, x="Gene", y=f"PC{pc_index + 1}_loading",
-                 title=f"Top {top_n} Gene Loadings for PC{pc_index + 1}")
-    fig.update_layout(xaxis_tickangle=45)
-    return fig
-
+    return '#{:02x}{:02x}{:02x}'.format(int(r*255), int(g*255), int(b*255))
 
 # ------------------------------------------------------------------------------
 # DASH APP
 # ------------------------------------------------------------------------------
 app = dash.Dash(__name__)
-
 
 # ------------------------------------------------------------------------------
 # LOAD + PREPROCESS
@@ -135,12 +77,10 @@ def load_and_preprocess_data(file_name, min_counts_cells, min_counts_genes):
     np.random.seed(42)
     shuffled_indices = np.random.permutation(adata.n_obs)
     adata = adata[shuffled_indices, :]
-    print("unfiltered", adata)
 
     # Filter cells/genes
     sc.pp.filter_cells(adata, min_counts=min_counts_cells)
     sc.pp.filter_genes(adata, min_counts=min_counts_genes)
-    print("filtered", adata)
 
     # Label each cell based on the classify_cell function
     adata.obs["time_group"] = [classify_cell(cell) for cell in adata.obs_names]
@@ -151,13 +91,13 @@ def load_and_preprocess_data(file_name, min_counts_cells, min_counts_genes):
     sc.pp.highly_variable_genes(adata, n_top_genes=2000)
     adata = adata[:, adata.var['highly_variable']]
     sc.pp.scale(adata, max_value=10)
+    #print(adata.var_names)
     gene_list = adata.var_names.tolist()
     print(gene_list)
 
     # PCA
     sc.tl.pca(adata, svd_solver='arpack')
     return adata, raw_data_copy
-
 
 # ------------------------------------------------------------------------------
 # CREATE UMAP
@@ -176,7 +116,6 @@ def create_umap(adata, n_neighbors, min_dist, n_pcs):
     umap_df['time_group'] = adata.obs['time_group']
     umap_df['cell_name'] = umap_df.index
     return umap_df
-
 
 # ------------------------------------------------------------------------------
 # DASH LAYOUT
@@ -213,14 +152,6 @@ app.layout = html.Div([
     html.Label("Set UMAP graph height:"),
     dcc.Input(id="umap-graph-height", type="number", value=1000),
     html.Br(),
-    # New dropdown for selecting which PC to view gene loadings for
-    html.Label("Select Principal Component for Gene Loadings:"),
-    dcc.Dropdown(
-        id="pc-dropdown",
-        options=[{'label': f'PC{i}', 'value': i - 1} for i in range(1, 13)],  # Assuming n_pcs=12 by default
-        value=0
-    ),
-    html.Br(),
     html.Button("Update UMAP + SVM", id="update-button", n_clicks=0),
     dcc.Loading(
         type="default",
@@ -230,7 +161,6 @@ app.layout = html.Div([
             dcc.Graph(id='precision-recall-plot'),
             dcc.Graph(id='feature-importance-plot'),
             dcc.Graph(id='decision-boundary-plot'),
-            dcc.Graph(id='pca-loadings-plot')
         ]
     ),
     dcc.Store(id="umap-data"),
@@ -239,9 +169,8 @@ app.layout = html.Div([
     dcc.Download(id="download-dataframe")
 ])
 
-
 # ------------------------------------------------------------------------------
-# CALLBACK: Main SVM + UMAP + PCA Loadings Plot (Modified for 2-class: 10min vs >30min)
+# CALLBACK: Main SVM + UMAP (Modified for 2-class: 10min vs >30min)
 # ------------------------------------------------------------------------------
 @app.callback(
     [
@@ -252,7 +181,6 @@ app.layout = html.Div([
         Output("decision-boundary-plot", "figure"),
         Output("umap-data", "data"),
         Output("raw-data", "data"),
-        Output("pca-loadings-plot", "figure")
     ],
     Input("update-button", "n_clicks"),
     State("file-name-input", "value"),
@@ -264,14 +192,12 @@ app.layout = html.Div([
     State("umap-marker-size", "value"),
     State("umap-graph-width", "value"),
     State("umap-graph-height", "value"),
-    State("pc-dropdown", "value"),
     prevent_initial_call=True
 )
 def update_umap_and_svm(n_clicks, file_name,
                         min_counts_cells, min_counts_genes,
                         n_neighbors, min_dist, n_pcs,
-                        umap_marker_size, umap_graph_width, umap_graph_height,
-                        pc_value):
+                        umap_marker_size, umap_graph_width, umap_graph_height):
     # 1) Load data & create UMAP (all cells)
     adata, raw_data = load_and_preprocess_data(file_name, min_counts_cells, min_counts_genes)
     umap_df = create_umap(adata, n_neighbors, min_dist, n_pcs)
@@ -284,7 +210,8 @@ def update_umap_and_svm(n_clicks, file_name,
     # 3) Create 2-class mapping
     group_map_2class = {"10min": 0, ">30min": 1}
     y_full = np.array([group_map_2class[g] for g in filtered_adata.obs["time_group"]])
-    X_full = filtered_adata.obsm["X_pca"][:, :n_pcs]  # Using PCA data for SVM
+    # X_full = filtered_adata.obsm["X_pca"][:, :n_pcs] # this makes the SVM use PCA data
+    X_full = filtered_adata.X.toarray()  # this makes the SVM use actual genes
 
     # 4) Train/test split
     X_train, X_test, y_train, y_test = train_test_split(
@@ -338,11 +265,13 @@ def update_umap_and_svm(n_clicks, file_name,
     # 9) Feature Importance for the 2-class linear SVM
     coefs = svm_model_2class.coef_[0]  # binary SVM returns shape=(1, n_features)
     abs_values = np.abs(coefs)
-    top_indices = np.argsort(abs_values)[::-1][:100]
+    top_indices = np.argsort(abs_values)[::-1][:10] # Returns the indices that would sort the array in ascending order, reverse it to get descending sort, then take the top 10
     print("top_indices", top_indices)
     top_features = filtered_adata.var_names[top_indices]
     top_importances = abs_values[top_indices]
     print("coefs", svm_model_2class.coef_)
+
+
 
     fig_feat = px.bar(
         x=top_features,
@@ -403,11 +332,9 @@ def update_umap_and_svm(n_clicks, file_name,
         hover_data=["cell_name", "time_group"],
         title="UMAP - SVM Predicted Group (2-class: 10min vs >30min)"
     )
+    # Set marker size and update the overall graph dimensions (size and shape)
     fig_umap.update_traces(marker=dict(size=umap_marker_size, opacity=0.8))
     fig_umap.update_layout(width=umap_graph_width, height=umap_graph_height)
-
-    # 12) PCA Gene Loadings Plot for the selected PC (using the full adata)
-    fig_pca = get_pca_loadings_figure(adata, pc_index=pc_value, top_n=20)
 
     return (
         fig_umap,
@@ -416,10 +343,8 @@ def update_umap_and_svm(n_clicks, file_name,
         fig_feat,
         fig_decision,
         umap_df.to_json(date_format='iso', orient='split'),
-        raw_data.to_json(date_format='iso', orient='split'),
-        fig_pca
+        raw_data.to_json(date_format='iso', orient='split')
     )
-
 
 # ------------------------------------------------------------------------------
 # CALLBACK: Download Points
@@ -440,7 +365,6 @@ def download_selected_points(n_clicks, selectedData, raw_data_json):
     if subset_df.empty:
         return dash.no_update
     return dcc.send_data_frame(subset_df.to_csv, "selected_points.csv")
-
 
 # ------------------------------------------------------------------------------
 # RUN

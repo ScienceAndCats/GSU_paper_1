@@ -14,9 +14,9 @@ than ScanPy to process the data.
 
 
 # Specify the folder that contains both the gene matrix file and the pkl files.
-folder = "working_data/preprocessed_PETRI_outputs/PAcontrol_tob_PEG_4000"  # <-- Update this to your folder path
+folder = "working_data/preprocessed_PETRI_outputs/PAcontrol_mixed_species_gene_matrix_preprocessed_100"  # <-- Update this to your folder path
 gene_matrix_filename = "PAcontrol_mixed_species_gene_matrix_preprocessed.txt"  # Update gene matrix file name
-pkl_prefix = "PAcontrol_tob_PEG_v11_threshold_0_filtered_mapped_UMIs_hans_" # Removed from pkl file names for obs column naming. Don't forget the "_" at the end.
+pkl_prefix = "PAcontrol_tob_PEG_v11_threshold_0_filtered_mapped_UMIs_hans_preprocessed" # Removed from pkl file names for obs column naming. Don't forget the "_" at the end.
 
 
 # 1. Load the gene expression matrix from the file

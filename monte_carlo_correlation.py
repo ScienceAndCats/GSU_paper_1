@@ -58,7 +58,7 @@ plt.axvline(mean_corr_real, color='red', linestyle='dashed', linewidth=2, label=
 plt.xlabel("Mean pairwise gene correlation")
 plt.xticks(np.arange(0, 0.4, 0.1))  # Tick marks from 0 to 1 in steps of 0.1
 plt.ylabel("Frequency")
-plt.title("Monte Carlo Simulation of Gene Co-Occurrence (Filtered Correlations)")
+plt.title("Monte Carlo Simulation of Gene Co-Occurrence")
 plt.legend()
 plt.show()
 

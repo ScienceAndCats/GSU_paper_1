@@ -73,10 +73,10 @@ FINAL OUTPUTS:
 TROUBLESHOOTING = False
 
 # Default values (will be overridden by command-line arguments)
-FILE_PATH = "working_files"
-INPUT_FILE = "DD2PAL_v11_threshold_0_filtered_mapped_UMIs_multihitcombo.txt"
+FILE_PATH = "working_data/Unprocessed_data/PAcontrol_tob_PEG"
+INPUT_FILE = "PAcontrol_tob_PEG_v11_threshold_0_filtered_mapped_UMIs_hans.txt"
 OUTPUT_FOLDER = os.path.join(FILE_PATH, "preprocessed_PETRI_outputs")
-SELECTED_CELL_FILE = "DD2PAL_selected_cumulative_frequency_table.txt"
+SELECTED_CELL_FILE = "PAcontrol_tob_PEG_selected_cumulative_frequency_table.txt"
 
 # Toggle for rRNA / ribo filtering
 RUN_FUNCTION_RNA_FILTER = True # this is also for multihits, need to update the name
@@ -88,7 +88,7 @@ RUN_REMOVE_COMMAS_FILTER = True
 # Toggle for barcode-based filtering from a selected cell file
 # Selects the top n number of barcodes with the highest amount of reads, NOT UMIs.
 RUN_BARCODE_FILTER = True
-NUM_BARCODES = 5000
+NUM_BARCODES = 100
 
 # Toggle for bc1 grouping
 RUN_BC1_SELECTION = False

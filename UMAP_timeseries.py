@@ -143,7 +143,7 @@ app.layout = html.Div([
     dcc.Input(id="n-neighbors-input", type="number", value=60, step=1, min=2, max=200),
     html.Br(),
     html.Label("Set min_dist for UMAP:"),
-    dcc.Input(id="min-dist-input", type="number", value=0.1, step=0.1, min=0.0, max=1.0),
+    dcc.Input(id="min-dist-input", type="number", value=0.10, step=0.01, min=0.01, max=1.00),
     html.Br(),
     html.Label("Set n_pcs for UMAP:"),
     dcc.Input(id="n-pcs-input", type="number", value=12, step=1, min=2),

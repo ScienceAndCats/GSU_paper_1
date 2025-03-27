@@ -5,24 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3d1053e-c4b7-43ad-a768-441168595819" name="Changes" comment="-so many things.">
-      <change afterPath="$PROJECT_DIR$/GENEEXP_timeseries_uninfected.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GENEEXP_timeseries_uninfected_DE.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SVMlinearGENEVALUES_infected_timeseries.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UMAP_heatmapByGene.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VIOLIN_compare_2_runs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_files/BAR_top20genes_eachGroup_bc1_selection.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/STATS_BAR_top15genes_compare4h5ad.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/STATS_VIOLIN_top15genes_compare4h5ad.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UMAP_timeseries_13Nov2024MultiInfection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/PREPROCESS_filtered_mapped_UMIs_to_Gene_Matrix.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PREPROCESS_txt_pkl_2_anndata.py" beforeDir="false" afterPath="$PROJECT_DIR$/PREPROCESS_txt_pkl_2_anndata.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SVMlinear_infected_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/SVMlinearPCA_infected_timeseries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UMAP_heatmap_PA01_Genes.py" beforeDir="false" afterPath="$PROJECT_DIR$/GENEEXP_timeseries_infected_DE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UMAP_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/UMAP_timeseries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/barchart_multiinfection_mean_phageExp_per_cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_scripts/barchart_multiinfection_mean_phageExp_per_cell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_tally.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_scripts/blast_tally.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compare_general_bulk_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/SELECTED-POINTS_compare_general_bulk_stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monte_carlo_correlation.py" beforeDir="false" afterPath="$PROJECT_DIR$/monte_carlo_correlation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FILTER_timeseries_phages.py" beforeDir="false" afterPath="$PROJECT_DIR$/FILTER_timeseries_phages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stats_infection_timeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/STATS_BAR_top15genes_compare4csv.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +66,7 @@
     "Python.CHI_co-infection_timeseries_csv_only.executor": "Run",
     "Python.CORRELATION_Luz19_genes.executor": "Run",
     "Python.CORRELATION_top20_genes.executor": "Run",
-    "Python.FILTER_timeseries_phages.executor": "Debug",
+    "Python.FILTER_timeseries_phages.executor": "Run",
     "Python.GENEEXP_timeseries_uninfected_DE.executor": "Run",
     "Python.LATE_KNEE_selecting_cells.executor": "Run",
     "Python.PETRI_assembly.executor": "Run",
@@ -86,6 +75,7 @@
     "Python.PREPROCESS_txt_pkl_2_anndata.executor": "Run",
     "Python.STATS-BAR_CompareBatches_UMI_per_species.executor": "Run",
     "Python.STATS_UMI_per_species.executor": "Run",
+    "Python.STATS_VIOLIN_top15genes_compare4h5ad.executor": "Run",
     "Python.SVM_InfectedVsUnifected_HostGenesOnly.executor": "Run",
     "Python.SVM_InfectedVsUninfected.executor": "Run",
     "Python.SVM_timeseries.executor": "Run",
@@ -213,7 +203,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742250217006</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="-so many things.">
+      <option name="closed" value="true" />
+      <created>1743019679104</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1743019679104</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

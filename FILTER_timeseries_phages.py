@@ -3,7 +3,6 @@ import numpy as np
 from scipy import sparse
 import pandas as pd
 
-
 # -------------------- Define Helper Function -------------------- #
 def classify_cell(cell_name):
     """Extracts the bc1 value from the cell name and assigns a timepoint."""
@@ -18,8 +17,20 @@ def classify_cell(cell_name):
         return "20min"
 
 
+# -------------------- Parameters -------------------- #
+file_path = "working_data/preprocessed_PETRI_outputs/13Nov2024RTmultiinfection_15000/RTmulti_mixed_species_gene_matrix_preprocessed.h5ad"
+
+# Choose a timepoint to keep. E.g. "5min", "10min", "15min", or "20min".
+timepoint_of_interest = "20min"
+
+# Choose infection status: "infected", "uninfected", or "all"
+infection_status = "infected"
+
+# Path to save the filtered .h5ad output
+save_path = "working_data/preprocessed_PETRI_outputs/13Nov2024RTmultiinfection_15000/RTmulti_20min_infected.h5ad"
+
+
 # -------------------- Data Loading & Filtering -------------------- #
-file_path = "working_data/preprocessed_PETRI_outputs/13Nov2024RTmultiinfection_15000/RTmulti_mixed_species_gene_matrix_preprocessed.h5ad" # "working_data/Unprocessed_data/13Nov2024RTmultiinfection/13Nov24_RT_multi_infection_gene_matrix.txt"
 adata = sc.read(file_path, delimiter="\t")
 
 # Remove genes with commas in their names
@@ -50,15 +61,30 @@ for phage in phage_patterns:
     adata.obs[f"{phage.strip(':')}_expression"] = phage_expression
 
 # -------------------- Filtering for Specific Cells -------------------- #
-# Select cells that express both phages and belong to the "20min" timepoint group.
-filter_mask = (
-        (adata.obs["luz19_expression"] > 0) &
-        (adata.obs["lkd16_expression"] > 0) &
-        (adata.obs["timepoint"] == "20min")
-)
+# 1) Filter for the specified timepoint.
+timepoint_mask = (adata.obs["timepoint"] == timepoint_of_interest)
+
+# 2) Define the infection mask based on the chosen infection status.
+if infection_status.lower() == "infected":
+    # Infected: cells expressing ANY of the phage genes
+    infection_mask = ((adata.obs["luz19_expression"] > 0) | (adata.obs["lkd16_expression"] > 0))
+elif infection_status.lower() == "uninfected":
+    # Uninfected: cells with zero expression for BOTH phage genes
+    infection_mask = ((adata.obs["luz19_expression"] == 0) & (adata.obs["lkd16_expression"] == 0))
+elif infection_status.lower() == "all":
+    # All cells: no filtering based on infection status
+    infection_mask = pd.Series(True, index=adata.obs.index)
+else:
+    raise ValueError("infection_status must be 'infected', 'uninfected', or 'all'.")
+
+filter_mask = timepoint_mask & infection_mask
 adata_filtered = adata[filter_mask].copy()
 
 # Print out a summary of the filtered data
 print("Number of cells in the filtered dataset:", adata_filtered.n_obs)
 print("Timepoints in the filtered dataset:", adata_filtered.obs["timepoint"].unique())
 print("Filtered cell names:", adata_filtered.obs_names.tolist())
+
+# -------------------- Save the Filtered AnnData -------------------- #
+adata_filtered.write(save_path)
+print(f"Filtered AnnData written to {save_path}")
